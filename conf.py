@@ -294,3 +294,14 @@ texinfo_documents = [
 
 pdf_documents = [('index', u'Citus Documentation', u'Citus Documentation', u'Citus Data')]
 pdf_fit_mode = "shrink"
+
+# -- Options for sphinxdoc-versioning -------------------------------------
+
+scv_greatest_tag = True
+scv_root_ref = version
+scv_priority = 'branches'
+scv_sort = ('semver',)
+scv_whitelist_branches = (re.compile(r'^v\d+\.\d+\.\d+$'),)
+scv_show_banner = True
+
+
