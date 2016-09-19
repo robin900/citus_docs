@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ingesting, Modifying Data (DML) &mdash; Citus 5.2.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.2.1 documentation" href="../index.html"/>
+        <link rel="next" title="Querying Distributed Tables (SQL)" href="querying.html"/>
+        <link rel="prev" title="Creating Distributed Tables (DDL)" href="ddl.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+   window.intercomSettings = {
+     app_id: "jfost7ih",
+   };
+  </script>
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jfost7ih';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ingesting, Modifying Data (DML)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#inserting-data">Inserting Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-row-inserts">Single row inserts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bulk-loading">Bulk loading</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#single-shard-updates-and-deletion">Single-Shard Updates and Deletion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-shard-updates-and-deletion">Cross-Shard Updates and Deletion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maximizing-write-performance">Maximizing Write Performance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tech_soln/real_time_dashboards.html">Real Time Dashboards</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/sql_workarounds.html">SQL Workarounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/append.html">Append Distribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Ingesting, Modifying Data (DML)</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ingesting-modifying-data-dml">
+<span id="dml"></span><h1>Ingesting, Modifying Data (DML)<a class="headerlink" href="#ingesting-modifying-data-dml" title="Permalink to this headline">¶</a></h1>
+<p>The following code snippets use the distributed tables example dataset, see <a class="reference internal" href="ddl.html#ddl"><span class="std std-ref">Creating Distributed Tables (DDL)</span></a>.</p>
+<div class="section" id="inserting-data">
+<h2>Inserting Data<a class="headerlink" href="#inserting-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-row-inserts">
+<h3>Single row inserts<a class="headerlink" href="#single-row-inserts" title="Permalink to this headline">¶</a></h3>
+<p>To insert data into distributed tables, you can use the standard PostgreSQL <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/sql-insert.html">INSERT</a> commands. As an example, we pick two rows randomly from the Github Archive dataset.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">github_events</span> <span class="n">VALUES</span> <span class="p">(</span><span class="mi">2489373118</span><span class="p">,</span><span class="s1">&#39;PublicEvent&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="mi">24509048</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;{&quot;id&quot;: 24509048, &quot;url&quot;: &quot;https://api.github.com/repos/SabinaS/csee6868&quot;, &quot;name&quot;: &quot;SabinaS/csee6868&quot;}&#39;</span><span class="p">,</span><span class="s1">&#39;{&quot;id&quot;: 2955009, &quot;url&quot;: &quot;https://api.github.com/users/SabinaS&quot;, &quot;login&quot;: &quot;SabinaS&quot;, &quot;avatar_url&quot;: &quot;https://avatars.githubusercontent.com/u/2955009?&quot;, &quot;gravatar_id&quot;: &quot;&quot;}&#39;</span><span class="p">,</span><span class="n">NULL</span><span class="p">,</span><span class="s1">&#39;2015-01-01 00:09:13&#39;</span><span class="p">);</span>
+
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">github_events</span> <span class="n">VALUES</span> <span class="p">(</span><span class="mi">2489368389</span><span class="p">,</span><span class="s1">&#39;WatchEvent&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="mi">28229924</span><span class="p">,</span><span class="s1">&#39;{&quot;action&quot;: &quot;started&quot;}&#39;</span><span class="p">,</span><span class="s1">&#39;{&quot;id&quot;: 28229924, &quot;url&quot;: &quot;https://api.github.com/repos/inf0rmer/blanket&quot;, &quot;name&quot;: &quot;inf0rmer/blanket&quot;}&#39;</span><span class="p">,</span><span class="s1">&#39;{&quot;id&quot;: 1405427, &quot;url&quot;: &quot;https://api.github.com/users/tategakibunko&quot;, &quot;login&quot;: &quot;tategakibunko&quot;, &quot;avatar_url&quot;: &quot;https://avatars.githubusercontent.com/u/1405427?&quot;, &quot;gravatar_id&quot;: &quot;&quot;}&#39;</span><span class="p">,</span><span class="n">NULL</span><span class="p">,</span><span class="s1">&#39;2015-01-01 00:00:24&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When inserting rows into distributed tables, the distribution column of the row being inserted must be specified. Based on the distribution column, Citus determines the right shard to which the insert should be routed to. Then, the query is forwarded to the right shard, and the remote insert command is executed on all the replicas of that shard.</p>
+</div>
+<div class="section" id="bulk-loading">
+<h3>Bulk loading<a class="headerlink" href="#bulk-loading" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes, you may want to bulk load several rows together into your distributed tables. To bulk load data from a file, you can directly use <a class="reference external" href="http://www.postgresql.org/docs/current/static/app-psql.html#APP-PSQL-META-COMMANDS-COPY">PostgreSQL&#8217;s \COPY command</a>.</p>
+<p>For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>\<span class="n">COPY</span> <span class="n">github_events</span> <span class="n">FROM</span> <span class="s1">&#39;github_events-2015-01-01-0.csv&#39;</span> <span class="n">WITH</span> <span class="p">(</span><span class="nb">format</span> <span class="n">CSV</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>There is no notion of snapshot isolation across shards, which means that a multi-shard SELECT that runs concurrently with a COPY might see it committed on some shards, but not on others. If the user is storing events data, he may occasionally observe small gaps in recent data. It is up to applications to deal with this if it is a problem (e.g.  exclude the most recent data from queries, or use some lock).</p>
+<p class="last">If COPY fails to open a connection for a shard placement then it behaves in the same way as INSERT, namely to mark the placement(s) as inactive unless there are no more active placements. If any other failure occurs after connecting, the transaction is rolled back and thus no metadata changes are made.</p>
+</div>
+</div>
+</div>
+<div class="section" id="single-shard-updates-and-deletion">
+<h2>Single-Shard Updates and Deletion<a class="headerlink" href="#single-shard-updates-and-deletion" title="Permalink to this headline">¶</a></h2>
+<p>You can also update or delete rows from your tables, using the standard PostgreSQL <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/sql-update.html">UPDATE</a> and <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/sql-delete.html">DELETE</a> commands.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">UPDATE</span> <span class="n">github_events</span> <span class="n">SET</span> <span class="n">org</span> <span class="o">=</span> <span class="n">NULL</span> <span class="n">WHERE</span> <span class="n">repo_id</span> <span class="o">=</span> <span class="mi">24509048</span><span class="p">;</span>
+<span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">github_events</span> <span class="n">WHERE</span> <span class="n">repo_id</span> <span class="o">=</span> <span class="mi">24509048</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Currently, Citus requires that standard UPDATE or DELETE statements involve exactly one shard. This means commands must include a WHERE qualification on the distribution column that restricts the query to a single shard. Such qualifications usually take the form of an equality clause on the table’s distribution column. To update or delete across shards see the section below.</p>
+</div>
+<div class="section" id="cross-shard-updates-and-deletion">
+<h2>Cross-Shard Updates and Deletion<a class="headerlink" href="#cross-shard-updates-and-deletion" title="Permalink to this headline">¶</a></h2>
+<p>The most flexible way to modify or delete rows throughout a Citus cluster is the master_modify_multiple_shards command. It takes a regular SQL statement as argument and runs it on all workers:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">master_modify_multiple_shards</span><span class="p">(</span>
+  <span class="s1">&#39;DELETE FROM github_events WHERE repo_id IN (24509048, 24509049)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This uses a two-phase commit to remove or update data safely everywhere. Unlike the standard UPDATE statement, Citus allows it to operate on more than one shard. To learn more about the function, its arguments and its usage, please visit the <a class="reference internal" href="../reference/user_defined_functions.html#user-defined-functions"><span class="std std-ref">User Defined Functions Reference</span></a> section of our documentation.</p>
+</div>
+<div class="section" id="maximizing-write-performance">
+<h2>Maximizing Write Performance<a class="headerlink" href="#maximizing-write-performance" title="Permalink to this headline">¶</a></h2>
+<p>Both INSERT and UPDATE/DELETE statements can be scaled up to around 50,000 queries per second on large machines. However, to achieve this rate, you will need to use many parallel, long-lived connections and consider how to deal with locking. For more information, you can consult the <a class="reference internal" href="../performance/scaling_data_ingestion.html#scaling-data-ingestion"><span class="std std-ref">Scaling Out Data Ingestion</span></a> section of our documentation.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="querying.html" class="btn btn-neutral float-right" title="Querying Distributed Tables (SQL)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ddl.html" class="btn btn-neutral" title="Creating Distributed Tables (DDL)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../v5.2/dist_tables/dml.html">v5.2</a></li>
+    <li><a href="../v5.1/index.html">v5.1</a></li>
+    <li><a href="../v5.0/index.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.2.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

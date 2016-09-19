@@ -1,0 +1,636 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>User Defined Functions Reference &mdash; Citus 5.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Metadata Tables Reference" href="metadata_tables.html"/>
+        <link rel="prev" title="Citus SQL Language Reference" href="citus_sql_reference.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="https://www.citusdata.com/sites/default/files/logo_0_0.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-cluster.html">Start Demo Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-real-time.html">Real Time Aggregation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-user-data.html">Updatable User Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/working_with_distributed_tables.html">Working with distributed tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/append_distribution.html">Append Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/hash_distribution.html">Hash Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/range_distribution.html">Range Distribution (Manual)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/postgresql_extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading to Citus 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Defined Functions Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-and-shard-ddl">Table and Shard DDL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#master-create-distributed-table">master_create_distributed_table</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#arguments">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#return-value">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#master-create-worker-shards">master_create_worker_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#master-create-empty-shard">master_create_empty_shard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#master-append-table-to-shard">master_append_table_to_shard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#master-apply-delete-command">master_apply_delete_command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id11">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#metadata-configuration-information">Metadata / Configuration Information</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#master-get-active-worker-nodes">master_get_active_worker_nodes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id14">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#master-get-table-metadata">master_get_table_metadata</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id17">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cluster-management-and-repair-functions">Cluster Management And Repair Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#master-copy-shard-placement">master_copy_shard_placement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id20">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rebalance-table-shards">rebalance_table_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id23">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#replicate-table-shards">replicate_table_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id26">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>User Defined Functions Reference</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="user-defined-functions-reference">
+<span id="user-defined-functions"></span><h1>User Defined Functions Reference<a class="headerlink" href="#user-defined-functions-reference" title="Permalink to this headline">¶</a></h1>
+<p>This section contains reference information for the User Defined Functions provided by Citus. These functions help in providing additional distributed functionality to Citus other than the standard SQL commands.</p>
+<div class="section" id="table-and-shard-ddl">
+<h2>Table and Shard DDL<a class="headerlink" href="#table-and-shard-ddl" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="master-create-distributed-table">
+<h3>master_create_distributed_table<a class="headerlink" href="#master-create-distributed-table" title="Permalink to this headline">¶</a></h3>
+<p>The master_create_distributed_table() function is used to define a distributed table. This function takes in a table name, the distribution column and distribution method and inserts appropriate metadata to mark the table as distributed.</p>
+<div class="section" id="arguments">
+<h4>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h4>
+<p><strong>table_name:</strong> Name of the table which needs to be distributed.</p>
+<p><strong>distribution_column:</strong> The column on which the table is to be distributed.</p>
+<p><strong>distribution_method:</strong> The method according to which the table is to be distributed. Permissible values are append, hash or range.</p>
+</div>
+<div class="section" id="return-value">
+<h4>Return Value<a class="headerlink" href="#return-value" title="Permalink to this headline">¶</a></h4>
+<p>N/A</p>
+</div>
+<div class="section" id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h4>
+<p>This example informs the database that the github_events table should be distributed by hash on the repo_id column.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">master_create_distributed_table</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">,</span> <span class="s1">&#39;repo_id&#39;</span><span class="p">,</span> <span class="s1">&#39;hash&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="master-create-worker-shards">
+<h3>master_create_worker_shards<a class="headerlink" href="#master-create-worker-shards" title="Permalink to this headline">¶</a></h3>
+<p>The master_create_worker_shards() function creates a specified number of worker shards with the desired replication factor for a <em>hash</em> distributed table. While doing so, the function also assigns a portion of the hash token space (which spans between -2 Billion and 2 Billion) to each shard. Once all shards are created, this function saves all distributed metadata on the master.</p>
+<div class="section" id="id1">
+<h4>Arguments<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p><strong>table_name:</strong> Name of hash distributed table for which shards are to be created.</p>
+<p><strong>shard_count:</strong> Number of shards to create.</p>
+<p><strong>replication_factor:</strong> Desired replication factor for each shard.</p>
+</div>
+<div class="section" id="id2">
+<h4>Return Value<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>N/A</p>
+</div>
+<div class="section" id="id3">
+<h4>Example<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>This example usage would create a total of 16 shards for the github_events table where each shard owns a portion of a hash token space and gets replicated on 2 workers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">master_create_worker_shards</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="master-create-empty-shard">
+<h3>master_create_empty_shard<a class="headerlink" href="#master-create-empty-shard" title="Permalink to this headline">¶</a></h3>
+<p>The master_create_empty_shard() function can be used to create an empty shard for an <em>append</em> distributed table. Behind the covers, the function first selects shard_replication_factor workers to create the shard on. Then, it connects to the workers and creates empty placements for the shard on the selected workers. Finally, the metadata is updated for these placements on the master to make these shards visible to future queries. The function errors out if it is unable to create the desired number of shard placements.</p>
+<div class="section" id="id4">
+<h4>Arguments<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p><strong>table_name:</strong> Name of the append distributed table for which the new shard is to be created.</p>
+</div>
+<div class="section" id="id5">
+<h4>Return Value<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p><strong>shard_id:</strong> The function returns the unique id assigned to the newly created shard.</p>
+</div>
+<div class="section" id="id6">
+<h4>Example<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>This example creates an empty shard for the github_events table. The shard id of the created shard is 102089.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_create_empty_shard</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">);</span>
+ <span class="n">master_create_empty_shard</span>
+<span class="o">---------------------------</span>
+                <span class="mi">102089</span>
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="master-append-table-to-shard">
+<span id="id7"></span><h3>master_append_table_to_shard<a class="headerlink" href="#master-append-table-to-shard" title="Permalink to this headline">¶</a></h3>
+<p>The master_append_table_to_shard() function can be used to append a PostgreSQL table&#8217;s contents to a shard of an <em>append</em> distributed table. Behind the covers, the function connects to each of the workers which have a placement of that shard and appends the contents of the table to each of them. Then, the function updates metadata for the shard placements on the basis of whether the append succeeded or failed on each of them.</p>
+<p>If the function is able to successfully append to at least one shard placement, the function will return successfully. It will also mark any placement to which the append failed as INACTIVE so that any future queries do not consider that placement. If the append fails for all placements, the function quits with an error (as no data was appended). In this case, the metadata is left unchanged.</p>
+<div class="section" id="id8">
+<h4>Arguments<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p><strong>shard_id:</strong> Id of the shard to which the contents of the table have to be appended.</p>
+<p><strong>source_table_name:</strong> Name of the PostgreSQL table whose contents have to be appended.</p>
+<p><strong>source_node_name:</strong> DNS name of the node on which the source table is present (&#8220;source&#8221; node).</p>
+<p><strong>source_node_port:</strong> The port on the source worker node on which the database server is listening.</p>
+</div>
+<div class="section" id="id9">
+<h4>Return Value<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p><strong>shard_fill_ratio:</strong> The function returns the fill ratio of the shard which is defined as the ratio of the current shard size to the configuration parameter shard_max_size.</p>
+</div>
+<div class="section" id="id10">
+<h4>Example<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>This example appends the contents of the github_events_local table to the shard having shard id 102089. The table github_events_local is present on the database running on the node master-101 on port number 5432. The function returns the ratio of the the current shard size to the maximum shard size, which is 0.1 indicating that 10% of the shard has been filled.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_append_table_to_shard</span><span class="p">(</span><span class="mi">102089</span><span class="p">,</span><span class="s1">&#39;github_events_local&#39;</span><span class="p">,</span><span class="s1">&#39;master-101&#39;</span><span class="p">,</span> <span class="mi">5432</span><span class="p">);</span>
+ <span class="n">master_append_table_to_shard</span>
+<span class="o">------------------------------</span>
+                 <span class="mf">0.100548</span>
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="master-apply-delete-command">
+<h3>master_apply_delete_command<a class="headerlink" href="#master-apply-delete-command" title="Permalink to this headline">¶</a></h3>
+<p>The master_apply_delete_command() function is used to delete shards which match the criteria specified by the delete command. This function deletes a shard only if all rows in the shard match the delete criteria. As the function uses shard metadata to decide whether or not a shard needs to be deleted, it requires the WHERE clause in the DELETE statement to be on the distribution column. If no condition is specified, then all shards of that table are deleted.</p>
+<p>Behind the covers, this function connects to all the worker nodes which have shards matching the delete criteria and sends them a command to drop the selected shards. Then, the function updates the corresponding metadata on the master. If the function is able to successfully delete a shard placement, then the metadata for it is deleted. If a particular placement could not be deleted, then it is marked as TO DELETE. The placements which are marked as TO DELETE are not considered for future queries and can be cleaned up later.</p>
+<div class="section" id="id11">
+<h4>Arguments<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p><strong>delete_command:</strong> valid <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/sql-delete.html">SQL DELETE</a> command</p>
+</div>
+<div class="section" id="id12">
+<h4>Return Value<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p><strong>deleted_shard_count:</strong> The function returns the number of shards which matched the criteria and were deleted (or marked for deletion). Note that this is the number of shards and not the number of shard placements.</p>
+</div>
+<div class="section" id="id13">
+<h4>Example<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p>The first example deletes all the shards for the github_events table since no delete criteria is specified. In the second example, only the shards matching the criteria (3 in this case) are deleted.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_apply_delete_command</span><span class="p">(</span><span class="s1">&#39;DELETE FROM github_events&#39;</span><span class="p">);</span>
+ <span class="n">master_apply_delete_command</span>
+<span class="o">-----------------------------</span>
+                           <span class="mi">5</span>
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+
+<span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_apply_delete_command</span><span class="p">(</span><span class="s1">&#39;DELETE FROM github_events WHERE review_date &lt; &#39;&#39;2009-03-01&#39;&#39;&#39;</span><span class="p">);</span>
+ <span class="n">master_apply_delete_command</span>
+<span class="o">-----------------------------</span>
+                           <span class="mi">3</span>
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="metadata-configuration-information">
+<h2>Metadata / Configuration Information<a class="headerlink" href="#metadata-configuration-information" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="master-get-active-worker-nodes">
+<h3>master_get_active_worker_nodes<a class="headerlink" href="#master-get-active-worker-nodes" title="Permalink to this headline">¶</a></h3>
+<p>The master_get_active_worker_nodes() function returns a list of active worker host names and port numbers. Currently, the function assumes that all the worker nodes in pg_worker_list.conf are active.</p>
+<div class="section" id="id14">
+<h4>Arguments<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p>N/A</p>
+</div>
+<div class="section" id="id15">
+<h4>Return Value<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<p>List of tuples where each tuple contains the following information:</p>
+<p><strong>node_name:</strong> DNS name of the worker node</p>
+<p><strong>node_port:</strong> Port on the worker node on which the database server is listening</p>
+</div>
+<div class="section" id="id16">
+<h4>Example<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_get_active_worker_nodes</span><span class="p">();</span>
+ <span class="n">node_name</span> <span class="o">|</span> <span class="n">node_port</span>
+<span class="o">-----------+-----------</span>
+ <span class="n">localhost</span> <span class="o">|</span>      <span class="mi">9700</span>
+ <span class="n">localhost</span> <span class="o">|</span>      <span class="mi">9702</span>
+ <span class="n">localhost</span> <span class="o">|</span>      <span class="mi">9701</span>
+
+<span class="p">(</span><span class="mi">3</span> <span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="master-get-table-metadata">
+<h3>master_get_table_metadata<a class="headerlink" href="#master-get-table-metadata" title="Permalink to this headline">¶</a></h3>
+<p>The master_get_table_metadata() function can be used to return distribution related metadata for a distributed table. This metadata includes the relation id, storage type, distribution method, distribution column, replication count, maximum shard size and the shard placement policy for that table. Behind the covers, this function queries Citus metadata tables to get the required information and concatenates it into a tuple before returning it to the user.</p>
+<div class="section" id="id17">
+<h4>Arguments<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<p><strong>table_name:</strong> Name of the distributed table for which you want to fetch metadata.</p>
+</div>
+<div class="section" id="id18">
+<h4>Return Value<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<p>A tuple containing the following information:</p>
+<p><strong>logical_relid:</strong> Oid of the distributed table. This values references the relfilenode column in the pg_class system catalog table.</p>
+<p><strong>part_storage_type:</strong> Type of storage used for the table. May be &#8216;t&#8217; (standard table), &#8216;f&#8217; (foreign table) or &#8216;c&#8217; (columnar table).</p>
+<p><strong>part_method:</strong> Distribution method used for the table. May be &#8216;a&#8217; (append), &#8216;h&#8217; (hash) or &#8216;r&#8217; (range).</p>
+<p><strong>part_key:</strong> Distribution column for the table.</p>
+<p><strong>part_replica_count:</strong> Current shard replication count.</p>
+<p><strong>part_max_size:</strong> Current maximum shard size in bytes.</p>
+<p><strong>part_placement_policy:</strong> Shard placement policy used for placing the table’s shards. May be 1 (local-node-first) or 2 (round-robin).</p>
+</div>
+<div class="section" id="id19">
+<h4>Example<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<p>The example below fetches and displays the table metadata for the github_events table.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_get_table_metadata</span><span class="p">(</span><span class="s1">&#39;github_events’);</span>
+ <span class="n">logical_relid</span> <span class="o">|</span> <span class="n">part_storage_type</span> <span class="o">|</span> <span class="n">part_method</span> <span class="o">|</span> <span class="n">part_key</span> <span class="o">|</span> <span class="n">part_replica_count</span> <span class="o">|</span> <span class="n">part_max_size</span> <span class="o">|</span> <span class="n">part_placement_policy</span>
+<span class="o">---------------+-------------------+-------------+----------+--------------------+---------------+-----------------------</span>
+         <span class="mi">24180</span> <span class="o">|</span> <span class="n">t</span>                 <span class="o">|</span> <span class="n">h</span>           <span class="o">|</span> <span class="n">repo_id</span>  <span class="o">|</span>                  <span class="mi">2</span> <span class="o">|</span>    <span class="mi">1073741824</span> <span class="o">|</span>                     <span class="mi">2</span>
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="cluster-management-and-repair-functions">
+<span id="cluster-management-functions"></span><h2>Cluster Management And Repair Functions<a class="headerlink" href="#cluster-management-and-repair-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="master-copy-shard-placement">
+<h3>master_copy_shard_placement<a class="headerlink" href="#master-copy-shard-placement" title="Permalink to this headline">¶</a></h3>
+<p>If a shard placement fails to be updated during a modification command or a DDL operation, then it gets marked as inactive. The master_copy_shard_placement function can then be called to repair an inactive shard placement using data from a healthy placement.</p>
+<p>To repair a shard, the function first drops the unhealthy shard placement and recreates it using the schema on the master. Once the shard placement is created, the function copies data from the healthy placement and updates the metadata to mark the new shard placement as healthy. This function ensures that the shard will be protected from any concurrent modifications during the repair.</p>
+<div class="section" id="id20">
+<h4>Arguments<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<p><strong>shard_id:</strong> Id of the shard to be repaired.</p>
+<p><strong>source_node_name:</strong> DNS name of the node on which the healthy shard placement is present (&#8220;source&#8221; node).</p>
+<p><strong>source_node_port:</strong> The port on the source worker node on which the database server is listening.</p>
+<p><strong>target_node_name:</strong> DNS name of the node on which the invalid shard placement is present (&#8220;target&#8221; node).</p>
+<p><strong>target_node_port:</strong> The port on the target worker node on which the database server is listening.</p>
+</div>
+<div class="section" id="id21">
+<h4>Return Value<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
+<p>N/A</p>
+</div>
+<div class="section" id="id22">
+<h4>Example<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<p>The example below will repair an inactive shard placement of shard 12345 which is present on the database server running on &#8216;bad_host&#8217; on port 5432. To repair it, it will use data from a healthy shard placement present on the server running on &#8216;good_host&#8217; on port 5432.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">master_copy_shard_placement</span><span class="p">(</span><span class="mi">12345</span><span class="p">,</span> <span class="s1">&#39;good_host&#39;</span><span class="p">,</span> <span class="mi">5432</span><span class="p">,</span> <span class="s1">&#39;bad_host&#39;</span><span class="p">,</span> <span class="mi">5432</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="rebalance-table-shards">
+<h3>rebalance_table_shards<a class="headerlink" href="#rebalance-table-shards" title="Permalink to this headline">¶</a></h3>
+<p>Note: The rebalance_table_shards function is a part of Citus Enterprise. Please contact <a class="reference external" href="mailto:engage&#37;&#52;&#48;citusdata&#46;com">engage<span>&#64;</span>citusdata<span>&#46;</span>com</a> to obtain this functionality.</p>
+<p>The rebalance_table_shards() function moves shards of the given table to make them evenly distributed among the workers. The function first calculates the list of moves it needs to make in order to ensure that the cluster is balanced within the given threshold. Then, it moves shard placements one by one from the source node to the destination node and updates the corresponding shard metadata to reflect the move.</p>
+<div class="section" id="id23">
+<h4>Arguments<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<p><strong>table_name:</strong> The name of the table whose shards need to be rebalanced.</p>
+<p><strong>threshold:</strong> (Optional) A float number between 0.0 and 1.0 which indicates the maximum difference ratio of node utilization from average utilization. For example, specifying 0.1 will cause the shard rebalancer to attempt to balance all nodes to hold the same number of shards ±10%. Specifically, the shard rebalancer will try to converge utilization of all worker nodes to the (1 - threshold) * average_utilization ... (1 + threshold) * average_utilization range.</p>
+<p><strong>max_shard_moves:</strong> (Optional) The maximum number of shards to move.</p>
+<p><strong>excluded_shard_list:</strong> (Optional) Identifiers of shards which shouldn&#8217;t be moved during the rebalance operation.</p>
+</div>
+<div class="section" id="id24">
+<h4>Return Value<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<p>N/A</p>
+</div>
+<div class="section" id="id25">
+<h4>Example<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<p>The example below will attempt to rebalance the shards of the github_events table within the default threshold.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">rebalance_table_shards</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This example usage will attempt to rebalance the github_events table without moving shards with id 1 and 2.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">rebalance_table_shards</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">,</span> <span class="n">excluded_shard_list</span><span class="p">:</span><span class="o">=</span><span class="s1">&#39;{1,2}&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="replicate-table-shards">
+<h3>replicate_table_shards<a class="headerlink" href="#replicate-table-shards" title="Permalink to this headline">¶</a></h3>
+<p>Note: The replicate_table_shards function is a part of Citus Enterprise. Please contact <a class="reference external" href="mailto:engage&#37;&#52;&#48;citusdata&#46;com">engage<span>&#64;</span>citusdata<span>&#46;</span>com</a> to obtain this functionality.</p>
+<p>The replicate_table_shards() function replicates the under-replicated shards of the given table. The function first calculates the list of under-replicated shards and locations from which they can be fetched for replication. The function then copies over those shards and updates the corresponding shard metadata to reflect the copy.</p>
+<div class="section" id="id26">
+<h4>Arguments<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<p><strong>table_name:</strong> The name of the table whose shards need to be replicated.</p>
+<p><strong>shard_replication_factor:</strong> (Optional) The desired replication factor to achieve for each shard.</p>
+<p><strong>max_shard_copies:</strong> (Optional) Maximum number of shards to copy to reach the desired replication factor.</p>
+<p><strong>excluded_shard_list:</strong> (Optional) Identifiers of shards which shouldn&#8217;t be copied during the replication operation.</p>
+</div>
+<div class="section" id="id27">
+<h4>Return Value<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
+<p>N/A</p>
+</div>
+<div class="section" id="examples">
+<h4>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h4>
+<p>The example below will attempt to replicate the shards of the github_events table to shard_replication_factor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">replicate_table_shards</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This example will attempt to bring the shards of the github_events table to the desired replication factor with a maximum of 10 shard copies. This means that the rebalancer will copy only a maximum of 10 shards in its attempt to reach the desired replication factor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">replicate_table_shards</span><span class="p">(</span><span class="s1">&#39;github_events&#39;</span><span class="p">,</span> <span class="n">max_shard_copies</span><span class="p">:</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="metadata_tables.html" class="btn btn-neutral float-right" title="Metadata Tables Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="citus_sql_reference.html" class="btn btn-neutral" title="Citus SQL Language Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../v5.2/reference/user_defined_functions.html">v5.2</a></li>
+    <li><a href="../../v5.1/reference/user_defined_functions.html">v5.1</a></li>
+    <li><a href="user_defined_functions.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,670 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Citus Documentation &mdash; Citus 5.2.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.2.1 documentation" href="#"/>
+        <link rel="next" title="What is Citus?" href="aboutcitus/what_is_citus.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+  <script>
+   window.intercomSettings = {
+     app_id: "jfost7ih",
+   };
+  </script>
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jfost7ih';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/dml.html">Ingesting, Modifying Data (DML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tech_soln/real_time_dashboards.html">Real Time Dashboards</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/sql_workarounds.html">SQL Workarounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/configuration.html">Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/append.html">Append Distribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="#">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Citus Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="citus-documentation">
+<h1>Citus Documentation<a class="headerlink" href="#citus-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the documentation for Citus 5.2! Citus horizontally scales PostgreSQL across commodity servers using sharding and replication. Its query engine parallelizes incoming SQL queries across these servers to enable real-time responses on large datasets.</p>
+<p>The documentation explains how you can install Citus and then provides
+instructions to design, build, query, and maintain your Citus cluster. It also
+includes a Reference section which provides quick information on several
+topics.</p>
+<div class="toctree-wrapper compound" id="about-citus">
+<p class="caption"><span class="caption-text">About Citus</span><a class="headerlink" href="#about-citus" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="aboutcitus/what_is_citus.html">What is Citus?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/what_is_citus.html#when-to-use-citus">When to Use Citus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/what_is_citus.html#considerations-for-use">Considerations for Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/what_is_citus.html#when-citus-is-inappropriate">When Citus is Inappropriate</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aboutcitus/introduction_to_citus.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/introduction_to_citus.html#master-worker-nodes">Master / Worker Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/introduction_to_citus.html#logical-sharding">Logical Sharding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/introduction_to_citus.html#metadata-tables">Metadata Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/introduction_to_citus.html#query-processing">Query Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aboutcitus/introduction_to_citus.html#failure-handling">Failure Handling</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="tutorial">
+<p class="caption"><span class="caption-text">Tutorial</span><a class="headerlink" href="#tutorial" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tut-hash-distribution.html">Hash-Distributed Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/tut-hash-distribution.html#start-demo-cluster">Start Demo Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/tut-hash-distribution.html#ingest-data">Ingest Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/tut-hash-distribution.html#run-queries">Run Queries</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="installation">
+<p class="caption"><span class="caption-text">Installation</span><a class="headerlink" href="#installation" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/development.html">Single-Machine Cluster</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/single_machine_osx.html">OS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/single_machine_rhel.html">Fedora, CentOS, or Red Hat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/single_machine_deb.html">Ubuntu or Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/single_machine_docker.html">Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation/production.html">Multi-Machine Cluster</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/multi_machine_aws.html">Amazon Web Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/multi_machine_aws.html#managed-citus-cloud-deployment">Managed Citus Cloud Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/multi_machine_aws.html#manual-cloudformation-deployment">Manual CloudFormation Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/production_rhel.html">Multi-node setup on Fedora, CentOS, or Red Hat</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_rhel.html#steps-to-be-executed-on-all-nodes">Steps to be executed on all nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_rhel.html#steps-to-be-executed-on-the-master-node">Steps to be executed on the master node</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/production_deb.html">Multi-node setup on Ubuntu or Debian</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_deb.html#steps-to-be-executed-on-all-nodes">Steps to be executed on all nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_deb.html#steps-to-be-executed-on-the-master-node">Steps to be executed on the master node</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="distributed-tables">
+<p class="caption"><span class="caption-text">Distributed Tables</span><a class="headerlink" href="#distributed-tables" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/dml.html">Ingesting, Modifying Data (DML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dist_tables/extensions.html">PostgreSQL extensions</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="performance">
+<p class="caption"><span class="caption-text">Performance</span><a class="headerlink" href="#performance" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/query_processing.html">Citus Query Processing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="performance/query_processing.html#distributed-query-planner">Distributed Query Planner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/query_processing.html#distributed-query-executor">Distributed Query Executor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="performance/query_processing.html#real-time-executor">Real-time Executor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="performance/query_processing.html#task-tracker-executor">Task Tracker Executor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="performance/query_processing.html#postgresql-planner-and-executor">PostgreSQL planner and executor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="performance/scaling_data_ingestion.html#real-time-inserts-0-50k-s">Real-time Inserts (0-50k/s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/scaling_data_ingestion.html#real-time-updates-0-50k-s">Real-time Updates (0-50k/s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/scaling_data_ingestion.html#bulk-copy-100-200k-s">Bulk Copy (100-200k/s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/scaling_data_ingestion.html#masterless-citus-50k-s-500k-s">Masterless Citus (50k/s-500k/s)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance/performance_tuning.html">Query Performance Tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="performance/performance_tuning.html#table-distribution-and-shards">Table Distribution and Shards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/performance_tuning.html#postgresql-tuning">PostgreSQL tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/performance_tuning.html#scaling-out-performance">Scaling Out Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance/performance_tuning.html#distributed-query-performance-tuning">Distributed Query Performance Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="performance/performance_tuning.html#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="performance/performance_tuning.html#advanced">Advanced</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="performance/performance_tuning.html#task-assignment-policy">Task Assignment Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="performance/performance_tuning.html#intermediate-data-transfer-format">Intermediate Data Transfer Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="performance/performance_tuning.html#real-time-executor">Real Time Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="performance/performance_tuning.html#task-tracker-executor">Task Tracker Executor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="cloud">
+<p class="caption"><span class="caption-text">Cloud</span><a class="headerlink" href="#cloud" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud/support.html">Support and Billing</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="technical-solutions">
+<p class="caption"><span class="caption-text">Technical Solutions</span><a class="headerlink" href="#technical-solutions" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tech_soln/real_time_dashboards.html">Real Time Dashboards</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#running-it-yourself">Running It Yourself</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#data-model">Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#rollups">Rollups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#expiring-old-data">Expiring Old Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#approximate-distinct-counts">Approximate Distinct Counts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#unstructured-data-with-jsonb">Unstructured Data with JSONB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tech_soln/real_time_dashboards.html#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="administration">
+<p class="caption"><span class="caption-text">Administration</span><a class="headerlink" href="#administration" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="reference">
+<p class="caption"><span class="caption-text">Reference</span><a class="headerlink" href="#reference" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/sql_workarounds.html">SQL Workarounds</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/sql_workarounds.html#subqueries-in-where">Subqueries in WHERE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/sql_workarounds.html#workaround-1-generate-explicit-where-in-expression">Workaround 1. Generate explicit WHERE-IN expression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/sql_workarounds.html#workaround-2-build-query-in-sql-client">Workaround 2. Build query in SQL client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sql_workarounds.html#insert-into-select">INSERT INTO ... SELECT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sql_workarounds.html#select-distinct">SELECT DISTINCT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sql_workarounds.html#join-a-local-and-a-distributed-table">JOIN a local and a distributed table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/sql_workarounds.html#data-warehousing-queries">Data Warehousing Queries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/user_defined_functions.html">User Defined Functions Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/user_defined_functions.html#table-and-shard-ddl">Table and Shard DDL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-create-distributed-table">master_create_distributed_table</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#arguments">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#return-value">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-create-worker-shards">master_create_worker_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id3">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id4">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id5">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-create-empty-shard">master_create_empty_shard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id6">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id7">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id8">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/user_defined_functions.html#table-and-shard-dml">Table and Shard DML</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-append-table-to-shard">master_append_table_to_shard</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id10">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id11">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id12">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-apply-delete-command">master_apply_delete_command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id13">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id14">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id15">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-modify-multiple-shards">master_modify_multiple_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id16">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id17">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id18">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/user_defined_functions.html#metadata-configuration-information">Metadata / Configuration Information</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-get-active-worker-nodes">master_get_active_worker_nodes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id19">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id20">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id21">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-get-table-metadata">master_get_table_metadata</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id22">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id23">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id24">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/user_defined_functions.html#cluster-management-and-repair-functions">Cluster Management And Repair Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#master-copy-shard-placement">master_copy_shard_placement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id25">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id26">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id27">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#rebalance-table-shards">rebalance_table_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id28">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id29">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id30">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/user_defined_functions.html#replicate-table-shards">replicate_table_shards</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id31">Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#id32">Return Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/user_defined_functions.html#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/metadata_tables.html">Metadata Tables Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/metadata_tables.html#partition-table">Partition table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/metadata_tables.html#shard-table">Shard table</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/metadata_tables.html#shard-storage-types">Shard Storage Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/metadata_tables.html#shard-placement-table">Shard placement table</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/metadata_tables.html#shard-placement-states">Shard Placement States</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/configuration.html">Configuration Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/configuration.html#node-configuration">Node configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#pg-worker-list-conf">pg_worker_list.conf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-max-worker-nodes-tracked-integer">citus.max_worker_nodes_tracked (integer)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/configuration.html#data-loading">Data Loading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-multi-shard-commit-protocol-enum">citus.multi_shard_commit_protocol (enum)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-shard-replication-factor-integer">citus.shard_replication_factor (integer)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-shard-max-size-integer">citus.shard_max_size (integer)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/configuration.html#planner-configuration">Planner Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-large-table-shard-count-integer">citus.large_table_shard_count (integer)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-limit-clause-row-fetch-count-integer">citus.limit_clause_row_fetch_count (integer)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-count-distinct-error-rate-floating-point">citus.count_distinct_error_rate (floating point)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-task-assignment-policy-enum">citus.task_assignment_policy (enum)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/configuration.html#intermediate-data-transfer-format">Intermediate Data Transfer Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-binary-worker-copy-format-boolean">citus.binary_worker_copy_format (boolean)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-binary-master-copy-format-boolean">citus.binary_master_copy_format (boolean)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/configuration.html#ddl">DDL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-enable-ddl-propagation-boolean">citus.enable_ddl_propagation (boolean)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/configuration.html#executor-configuration">Executor Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-all-modifications-commutative">citus.all_modifications_commutative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-remote-task-check-interval-integer">citus.remote_task_check_interval (integer)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#citus-task-executor-type-enum">citus.task_executor_type (enum)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#real-time-executor-configuration">Real-time executor configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#max-connections-integer">max_connections (integer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#max-files-per-process-integer">max_files_per_process (integer)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#task-tracker-executor-configuration">Task tracker executor configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#citus-task-tracker-delay-integer">citus.task_tracker_delay (integer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#citus-max-tracked-tasks-per-node-integer">citus.max_tracked_tasks_per_node (integer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#citus-max-assign-task-batch-size-integer">citus.max_assign_task_batch_size (integer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#citus-max-running-tasks-per-node-integer">citus.max_running_tasks_per_node (integer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#citus-partition-buffer-size-integer">citus.partition_buffer_size (integer)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/configuration.html#explain-output">Explain output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/configuration.html#citus-explain-all-tasks-boolean">citus.explain_all_tasks (boolean)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/append.html">Append Distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/append.html#creating-and-distributing-tables">Creating and Distributing Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/append.html#expiring-data">Expiring Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/append.html#deleting-data">Deleting Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/append.html#dropping-tables">Dropping Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/append.html#data-loading">Data Loading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/append.html#bulk-load-using-copy">Bulk load using \copy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/append.html#incremental-loads-by-appending-to-existing-shards">Incremental loads by appending to existing shards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/append.html#increasing-data-loading-performance">Increasing data loading performance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/append.html#scaling-data-ingestion">Scaling Data Ingestion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/append.html#master-node-bulk-ingestion-100k-s-200k-s">Master Node Bulk Ingestion (100k/s-200k/s)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/append.html#worker-node-bulk-ingestion-100k-s-1m-s">Worker Node Bulk Ingestion (100k/s-1M/s)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/append.html#pre-processing-data-in-citus">Pre-processing Data in Citus</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="faq">
+<p class="caption"><span class="caption-text">FAQ</span><a class="headerlink" href="#faq" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq/faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#can-i-create-primary-keys-on-distributed-tables">Can I create primary keys on distributed tables?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-do-i-add-nodes-to-an-existing-citus-cluster">How do I add nodes to an existing Citus cluster?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-do-i-change-the-shard-count-for-a-hash-partitioned-table">How do I change the shard count for a hash partitioned table?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-does-citus-handle-failure-of-a-worker-node">How does Citus handle failure of a worker node?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-does-citus-handle-failover-of-the-master-node">How does Citus handle failover of the master node?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-do-i-ingest-the-results-of-a-query-into-a-distributed-table">How do I ingest the results of a query into a distributed table?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#can-i-join-distributed-and-non-distributed-tables-together-in-the-same-query">Can I join distributed and non-distributed tables together in the same query?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#are-there-any-postgresql-features-not-supported-by-citusdb">Are there any PostgreSQL features not supported by CitusDB?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-do-i-choose-the-shard-count-when-i-hash-partition-my-data">How do I choose the shard count when I hash-partition my data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#how-does-citus-support-count-distinct-queries">How does citus support count(distinct) queries?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/faq.html#in-which-situations-are-uniqueness-constraints-supported-on-distributed-tables">In which situations are uniqueness constraints supported on distributed tables?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0052/6282.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script></div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="aboutcitus/what_is_citus.html" class="btn btn-neutral float-right" title="What is Citus?" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="v5.2/index.html">v5.2</a></li>
+    <li><a href="v5.1/index.html">v5.1</a></li>
+    <li><a href="v5.0/index.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'5.2.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

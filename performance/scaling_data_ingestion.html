@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scaling Out Data Ingestion &mdash; Citus 5.2.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.2.1 documentation" href="../index.html"/>
+        <link rel="next" title="Query Performance Tuning" href="performance_tuning.html"/>
+        <link rel="prev" title="Citus Query Processing" href="query_processing.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+   window.intercomSettings = {
+     app_id: "jfost7ih",
+   };
+  </script>
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jfost7ih';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/dml.html">Ingesting, Modifying Data (DML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scaling Out Data Ingestion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#real-time-inserts-0-50k-s">Real-time Inserts (0-50k/s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#real-time-updates-0-50k-s">Real-time Updates (0-50k/s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bulk-copy-100-200k-s">Bulk Copy (100-200k/s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#masterless-citus-50k-s-500k-s">Masterless Citus (50k/s-500k/s)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tech_soln/real_time_dashboards.html">Real Time Dashboards</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/sql_workarounds.html">SQL Workarounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/append.html">Append Distribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Scaling Out Data Ingestion</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scaling-out-data-ingestion">
+<span id="scaling-data-ingestion"></span><h1>Scaling Out Data Ingestion<a class="headerlink" href="#scaling-out-data-ingestion" title="Permalink to this headline">¶</a></h1>
+<p>Citus lets you scale out data ingestion to very high rates, but there are several trade-offs to consider in terms of the throughput, durability, consistency and latency. In this section, we discuss several approaches to data ingestion and give examples of how to use them.</p>
+<div class="section" id="real-time-inserts-0-50k-s">
+<h2>Real-time Inserts (0-50k/s)<a class="headerlink" href="#real-time-inserts-0-50k-s" title="Permalink to this headline">¶</a></h2>
+<p>On the Citus master, you can perform INSERT commands directly on hash distributed tables. The advantage of using INSERT is that the new data is immediately visible to SELECT queries, and durably stored on multiple replicas.</p>
+<p>When processing an INSERT, Citus first finds the right shard placements based on the value in the distribution column, then it connects to the workers storing the shard placements, and finally performs an INSERT on each of them. From the perspective of the user, the INSERT takes several milliseconds to process because of the round-trips to the workers, but the master can process other INSERTs in other sessions while waiting for a response. The master also keeps connections to the workers open within the same session, which means subsequent queries will see lower response times.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Set</span> <span class="n">up</span> <span class="n">a</span> <span class="n">distributed</span> <span class="n">table</span> <span class="n">containing</span> <span class="n">counters</span>
+<span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">counters</span> <span class="p">(</span><span class="n">c_key</span> <span class="n">text</span><span class="p">,</span> <span class="n">c_date</span> <span class="n">date</span><span class="p">,</span> <span class="n">c_value</span> <span class="nb">int</span><span class="p">,</span> <span class="n">primary</span> <span class="n">key</span> <span class="p">(</span><span class="n">c_key</span><span class="p">,</span> <span class="n">c_date</span><span class="p">));</span>
+<span class="n">SELECT</span> <span class="n">master_create_distributed_table</span><span class="p">(</span><span class="s1">&#39;counters&#39;</span><span class="p">,</span> <span class="s1">&#39;c_key&#39;</span><span class="p">,</span> <span class="s1">&#39;hash&#39;</span><span class="p">);</span>
+<span class="n">SELECT</span> <span class="n">master_create_worker_shards</span><span class="p">(</span><span class="s1">&#39;counters&#39;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+<span class="o">--</span> <span class="n">Enable</span> <span class="n">timing</span> <span class="n">to</span> <span class="n">see</span> <span class="n">reponse</span> <span class="n">times</span>
+\<span class="n">timing</span> <span class="n">on</span>
+
+<span class="o">--</span> <span class="n">First</span> <span class="n">INSERT</span> <span class="n">requires</span> <span class="n">connection</span> <span class="nb">set</span><span class="o">-</span><span class="n">up</span><span class="p">,</span> <span class="n">second</span> <span class="n">will</span> <span class="n">be</span> <span class="n">faster</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">counters</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;num_purchases&#39;</span><span class="p">,</span> <span class="s1">&#39;2016-03-04&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span> <span class="o">--</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">10.314</span> <span class="n">ms</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">counters</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;num_purchases&#39;</span><span class="p">,</span> <span class="s1">&#39;2016-03-05&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="o">--</span> <span class="n">Time</span><span class="p">:</span> <span class="mf">3.132</span> <span class="n">ms</span>
+</pre></div>
+</div>
+<p>To reach high throughput rates, applications should send INSERTs over a many separate connections and keep connections open to avoid the initial overhead of connection set-up.</p>
+</div>
+<div class="section" id="real-time-updates-0-50k-s">
+<h2>Real-time Updates (0-50k/s)<a class="headerlink" href="#real-time-updates-0-50k-s" title="Permalink to this headline">¶</a></h2>
+<p>On the Citus master, you can also perform UPDATE, DELETE, and INSERT ... ON CONFLICT (UPSERT) commands on distributed tables. By default, these queries take an exclusive lock on the shard, which prevents concurrent modifications to guarantee that the commands are applied in the same order on all shard placements.</p>
+<p>Given that every command requires several round-trips to the workers, and no two commands can run on the same shard at the same time, update throughput is very low by default. However, if you know that the order of the queries doesn&#8217;t matter (they are commutative), then you can turn on citus.all_modifications_commutative, in which case multiple commands can update the same shard concurrently.</p>
+<p>For example, if your distributed table contains counters and all your DML queries are UPSERTs that add to the counters, then you can safely turn on citus.all_modifications_commutative since addition is commutative:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SET</span> <span class="n">citus</span><span class="o">.</span><span class="n">all_modifications_commutative</span> <span class="n">TO</span> <span class="n">on</span><span class="p">;</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">counters</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;num_purchases&#39;</span><span class="p">,</span> <span class="s1">&#39;2016-03-04&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ON</span> <span class="n">CONFLICT</span> <span class="p">(</span><span class="n">c_key</span><span class="p">,</span> <span class="n">c_date</span><span class="p">)</span> <span class="n">DO</span> <span class="n">UPDATE</span> <span class="n">SET</span> <span class="n">c_value</span> <span class="o">=</span> <span class="n">counters</span><span class="o">.</span><span class="n">c_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Note that this query also takes an exclusive lock on the row in PostgreSQL, which may also limit the throughput. When storing counters, consider that using INSERT and summing values in a SELECT does not require exclusive locks.</p>
+<p>When the replication factor is 1, it is always safe to enable citus.all_modifications_commutative. Citus does not do this automatically yet.</p>
+</div>
+<div class="section" id="bulk-copy-100-200k-s">
+<h2>Bulk Copy (100-200k/s)<a class="headerlink" href="#bulk-copy-100-200k-s" title="Permalink to this headline">¶</a></h2>
+<p>Hash distributed tables support <a class="reference external" href="http://www.postgresql.org/docs/current/static/sql-copy.html">COPY</a> from the Citus master for bulk ingestion, which can achieve much higher ingestion rates than regular INSERT statements.</p>
+<p>COPY can be used to load data directly from an application using COPY .. FROM STDIN, or from a file on the server or program executed on the server.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">COPY</span> <span class="n">counters</span> <span class="n">FROM</span> <span class="n">STDIN</span> <span class="n">WITH</span> <span class="p">(</span><span class="n">FORMAT</span> <span class="n">CSV</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In psql, the \COPY command can be used to load data from the local machine. The \COPY command actually sends a COPY .. FROM STDIN command to the server before sending the local data, as would an application that loads data directly.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">psql</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;\COPY counters FROM &#39;counters-20160304.csv&#39; (FORMAT CSV)&quot;</span>
+</pre></div>
+</div>
+<p>A very powerful feature of COPY for hash distributed tables is that it asynchronously copies data to the workers over many parallel connections, one for each shard placement. This means that data can be ingested using multiple workers and multiple cores in parallel. Especially when there are expensive indexes such as a GIN, this can lead to major performance boosts over ingesting into a regular PostgreSQL table.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To avoid opening too many connections to the workers. We recommend only running only one COPY command on a hash distributed table at a time. In practice, running more than two at a time rarely results in performance benefits. An exception is when all the data in the ingested file has a specific partition key value, which goes into a single shard. COPY will only open connections to shards when necessary.</p>
+</div>
+</div>
+<div class="section" id="masterless-citus-50k-s-500k-s">
+<h2>Masterless Citus (50k/s-500k/s)<a class="headerlink" href="#masterless-citus-50k-s-500k-s" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section is currently experimental and not a guide to setup masterless clusters in production. We are working on providing official support for masterless clusters including replication and automated fail-over solutions. Please contact us at <a class="reference external" href="mailto:engage&#37;&#52;&#48;citusdata&#46;com">engage<span>&#64;</span>citusdata<span>&#46;</span>com</a> if your use-case requires multiple masters.</p>
+</div>
+<p>It is technically possible to create the distributed table on every node in the cluster. The big advantage is that all  queries on distributed tables can be performed at a very high rate by spreading the queries across the workers. In this case, the replication factor should always be 1 to ensure consistency, which causes data to become unavailable when a node goes down. All nodes should have a hot standby and automated fail-over to ensure high availability.</p>
+<p>To allow DML commands on the distribute table from any node, first create a distributed table on both the master and the workers:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span> <span class="n">data</span> <span class="p">(</span><span class="n">key</span> <span class="n">text</span><span class="p">,</span> <span class="n">value</span> <span class="n">text</span><span class="p">);</span>
+<span class="n">SELECT</span> <span class="n">master_create_distributed_table</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;key&#39;</span><span class="p">,</span><span class="s1">&#39;hash&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then on the master, create shards for the distributed table with a replication factor of 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">Create</span> <span class="mi">128</span> <span class="n">shards</span> <span class="k">with</span> <span class="n">a</span> <span class="n">single</span> <span class="n">replica</span> <span class="n">on</span> <span class="n">the</span> <span class="n">workers</span>
+<span class="n">SELECT</span> <span class="n">master_create_worker_shards</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally, you need to copy and convert the shard metadata from the master to the workers. The logicalrelid column in pg_dist_shard may differ per node. If you have the dblink extension installed, then you can run the following commands on the workers to get the metadata from master-node.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">pg_dist_shard</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span>
+<span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;host=master-node port=5432&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;SELECT logicalrelid::regclass,shardid,shardstorage,shardalias,shardminvalue,shardmaxvalue FROM pg_dist_shard&#39;</span><span class="p">)</span>
+<span class="n">AS</span> <span class="p">(</span><span class="n">logicalrelid</span> <span class="n">regclass</span><span class="p">,</span> <span class="n">shardid</span> <span class="n">bigint</span><span class="p">,</span> <span class="n">shardstorage</span> <span class="n">char</span><span class="p">,</span> <span class="n">shardalias</span> <span class="n">text</span><span class="p">,</span> <span class="n">shardminvalue</span> <span class="n">text</span><span class="p">,</span> <span class="n">shardmaxvalue</span> <span class="n">text</span><span class="p">);</span>
+
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">pg_dist_shard_placement</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span>
+<span class="n">dblink</span><span class="p">(</span><span class="s1">&#39;host=master-node port=5432&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;SELECT * FROM pg_dist_shard_placement&#39;</span><span class="p">)</span>
+<span class="n">AS</span> <span class="p">(</span><span class="n">shardid</span> <span class="n">bigint</span><span class="p">,</span> <span class="n">shardstate</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shardlength</span> <span class="n">bigint</span><span class="p">,</span> <span class="n">nodename</span> <span class="n">text</span><span class="p">,</span> <span class="n">nodeport</span> <span class="nb">int</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After these commands, you can connect to any node and perform both SELECT and DML commands on the distributed table. However, DDL commands won&#8217;t be supported.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="performance_tuning.html" class="btn btn-neutral float-right" title="Query Performance Tuning" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="query_processing.html" class="btn btn-neutral" title="Citus Query Processing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../v5.2/performance/scaling_data_ingestion.html">v5.2</a></li>
+    <li><a href="../v5.1/performance/scaling_data_ingestion.html">v5.1</a></li>
+    <li><a href="../v5.0/performance/scaling_data_ingestion.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.2.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

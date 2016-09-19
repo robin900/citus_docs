@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Upgrading to Citus 5 &mdash; Citus 5.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Transitioning From PostgreSQL to Citus" href="transitioning_from_postgresql_to_citus.html"/>
+        <link rel="prev" title="Cluster Management" href="cluster_management.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="https://www.citusdata.com/sites/default/files/logo_0_0.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-cluster.html">Start Demo Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-real-time.html">Real Time Aggregation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-user-data.html">Updatable User Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/working_with_distributed_tables.html">Working with distributed tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/append_distribution.html">Append Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/hash_distribution.html">Hash Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/range_distribution.html">Range Distribution (Manual)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/postgresql_extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Upgrading to Citus 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Upgrading to Citus 5</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="upgrading-to-citus-5">
+<span id="upgrading-citus"></span><h1>Upgrading to Citus 5<a class="headerlink" href="#upgrading-to-citus-5" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how you can upgrade your existing Citus installation to Citus 5.0.</p>
+<p>If you are upgrading from CitusDB 4.0 to Citus 5.0, you can use the standard <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/pgupgrade.html">PostgreSQL pg_upgrade</a> utility. pg_upgrade uses the fact that the on-disk representation of the data has probably not changed, and copies over the disk files as is, thus making the upgrade process faster.</p>
+<p>Citus 5.0 is not a standalone application but a PostgreSQL extension. Therefore, you should first install <a class="reference external" href="http://www.postgresql.org/download/">PostgreSQL 9.5</a> before installing Citus 5.0.</p>
+<p>Apart from running pg_upgrade, there are 3 manual steps to be accounted for in order to update Citus.</p>
+<ol class="arabic simple">
+<li>Create and configure Citus extension.</li>
+<li>Copy over Citus medadata tables.</li>
+<li>Set pg_dist_shardid_seq current sequence to max shard value.</li>
+</ol>
+<p>The others are known pg_upgrade manual steps, i.e. manually updating configuration files, pg_hba etc.</p>
+<p>We discuss the step by step process of upgrading the cluster below. Please note that you need to run the steps on all the nodes in the cluster. Some steps need to be run only on the master and they are explicitly marked as such.</p>
+<p><strong>1. Download and install Citus 5.0 on the server having the to-be-upgraded 4.0 data directory</strong></p>
+<p>Download and install PostgreSQL 9.5.x from <a class="reference external" href="http://www.postgresql.org/download/">http://www.postgresql.org/download/</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The instructions below assume that the PostgreSQL installation is in your path. If not, you will need to add it to your PATH environment variable. For example:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span>export PATH=/usr/lib/postgresql/9.5/:$PATH
+</pre></div>
+</div>
+</div>
+<p>You can then download and install the new Citus packages from our Downloads page. Please visit the <a class="reference internal" href="../installation/production.html#production"><span class="std std-ref">Multi-Machine Cluster</span></a> section for specific instructions.</p>
+<p>Note that the Citus 5.0 extension will be installed at the PostgreSQL install location.</p>
+<p><strong>2. Setup environment variables for the data directories</strong></p>
+<p>Please set appropriate values for data location like below. This makes accessing data directories in subsequent commands easier.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PGDATA5_0</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">postgresql</span><span class="o">/</span><span class="mf">9.5</span><span class="o">/</span><span class="n">data</span>
+<span class="n">export</span> <span class="n">PGDATA4_0</span><span class="o">=/</span><span class="n">opt</span><span class="o">/</span><span class="n">citusdb</span><span class="o">/</span><span class="mf">4.0</span><span class="o">/</span><span class="n">data</span>
+</pre></div>
+</div>
+<p><strong>3. Stop loading data on to that instance</strong></p>
+<p>If you are upgrading the master, then you should stop all data-loading/appending
+and staging before copying out the metadata. If data-loading continues after step 4 below,
+then the metadata will be out of date.</p>
+<p><strong>4. Copy out pg_dist catalog metadata from the 4.0 server (Only needed for master)</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">COPY</span> <span class="n">pg_dist_partition</span> <span class="n">TO</span> <span class="s1">&#39;/var/tmp/pg_dist_partition.data&#39;</span><span class="p">;</span>
+<span class="n">COPY</span> <span class="n">pg_dist_shard</span> <span class="n">TO</span> <span class="s1">&#39;/var/tmp/pg_dist_shard.data&#39;</span><span class="p">;</span>
+<span class="n">COPY</span> <span class="n">pg_dist_shard_placement</span> <span class="n">TO</span> <span class="s1">&#39;/var/tmp/pg_dist_shard_placement.data&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>5. Initialize a new data directory for 5.0</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>initdb -D $PGDATA5_0
+</pre></div>
+</div>
+<p>Note: On some platforms, PostgreSQL creates a data directory by default during installation. You can ignore this step if you want to use that data directory.</p>
+<p><strong>6. Check upgrade compatibility</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pg_upgrade -b /opt/citusdb/4.0/bin/ -B /usr/lib/postgresql/9.5/bin/ -d $PGDATA4_0 -D $PGDATA5_0 --check
+</pre></div>
+</div>
+<p>This should return <strong>Clusters are compatible</strong>. If this doesn&#8217;t return that message, you need to stop and check what the error is.</p>
+<p>Note: This may return the following warning if the 4.0 server has not been stopped. This warning is OK:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span><span class="n">failure</span><span class="o">*</span>
+<span class="n">Consult</span> <span class="n">the</span> <span class="n">last</span> <span class="n">few</span> <span class="n">lines</span> <span class="n">of</span> <span class="s2">&quot;pg_upgrade_server.log&quot;</span> <span class="k">for</span> <span class="n">the</span> <span class="n">probable</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">failure</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>7. Shutdown the running 4.0 server</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>/opt/citusdb/4.0/bin/pg_ctl stop -D $PGDATA4_0
+</pre></div>
+</div>
+<p><strong>8. Run pg_upgrade, remove the &#8211;check flag</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pg_upgrade -b /opt/citusdb/4.0/bin/ -B /usr/lib/postgresql/9.5/bin/ -d $PGDATA4_0 -D $PGDATA5_0
+</pre></div>
+</div>
+<p><strong>9. Copy over pg_worker_list.conf (Only needed for master)</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>cp $PGDATA4_0/pg_worker_list.conf $PGDATA5_0/pg_worker_list.conf
+</pre></div>
+</div>
+<p><strong>10. Re-do changes to config settings in postgresql.conf and pg_hba.conf in the 5.0 data directory</strong></p>
+<ul class="simple">
+<li>listen_addresses</li>
+<li>performance tuning parameters</li>
+<li>enabling connections</li>
+<li>Copy all non-default settings below <strong>DISTRIBUTED DATABASE</strong> section (eg. shard_max_size, shard_replication_factor etc) to the end of the new postgresql.conf. Also note that for usage with Citus 5.0, each setting name must be prefixed with &#8220;citus&#8221;. i.e. <strong>shard_max_size</strong> becomes <strong>citus.shard_max_size</strong>.</li>
+</ul>
+<p><strong>11. Add citus to shared_preload_libraries in postgresql.conf</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>vi $PGDATA5_0/postgresql.conf
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">shared_preload_libraries</span> <span class="o">=</span> <span class="s1">&#39;citus&#39;</span>
+</pre></div>
+</div>
+<p>Make sure <strong>citus</strong> is the first extension if there are more extensions you want to add there.</p>
+<p><strong>12.  Start the new 5.0 server</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pg_ctl -D $PGDATA5_0 start
+</pre></div>
+</div>
+<p><strong>13. Connect to postgresql instance and create citus extension</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">psql</span> <span class="o">-</span><span class="n">d</span> <span class="n">postgres</span> <span class="o">-</span><span class="n">h</span> <span class="n">localhost</span>
+<span class="n">create</span> <span class="n">extension</span> <span class="n">citus</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>14. Copy over pg_dist catalog tables to the new server using the PostgreSQL 9.5.x psql client (Only needed for master)</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">psql</span> <span class="o">-</span><span class="n">d</span> <span class="n">postgres</span> <span class="o">-</span><span class="n">h</span> <span class="n">localhost</span>
+<span class="n">COPY</span> <span class="n">pg_dist_partition</span> <span class="n">FROM</span> <span class="s1">&#39;/var/tmp/pg_dist_partition.data&#39;</span><span class="p">;</span>
+<span class="n">COPY</span> <span class="n">pg_dist_shard</span> <span class="n">FROM</span> <span class="s1">&#39;/var/tmp/pg_dist_shard.data&#39;</span><span class="p">;</span>
+<span class="n">COPY</span> <span class="n">pg_dist_shard_placement</span> <span class="n">FROM</span> <span class="s1">&#39;/var/tmp/pg_dist_shard_placement.data&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>15. Restart the sequence pg_dist_shardid_seq (Only needed for master)</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">setval</span><span class="p">(</span><span class="s1">&#39;pg_catalog.pg_dist_shardid_seq&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">SELECT</span> <span class="n">MAX</span><span class="p">(</span><span class="n">shardid</span><span class="p">)</span> <span class="n">AS</span> <span class="n">max_shard_id</span> <span class="n">FROM</span> <span class="n">pg_dist_shard</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This is needed since the sequence value doesn&#8217;t get copied over. So we restart the sequence from the largest shardid (+1 to avoid collision). This will come into play when staging data, not when querying data.</p>
+<p>If you are using hash distributed tables, then this step may return an error :</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ERROR</span><span class="p">:</span>  <span class="n">setval</span><span class="p">:</span> <span class="n">value</span> <span class="mi">100</span><span class="o">**</span> <span class="ow">is</span> <span class="n">out</span> <span class="n">of</span> <span class="n">bounds</span> <span class="k">for</span> <span class="n">sequence</span> <span class="s2">&quot;pg_dist_shardid_seq&quot;</span> <span class="p">(</span><span class="mf">102008.</span><span class="o">.</span><span class="mi">9223372036854775807</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can ignore this error and continue with the process below.</p>
+<p><strong>16. Ready to run queries/create tables/load data</strong></p>
+<p>At this step, you have successfully completed the upgrade process. You can run queries, create new tables or add data to existing tables. Once everything looks good, the old 4.0 data directory can be deleted.</p>
+<p><strong>Running in a mixed mode</strong></p>
+<p>For users who don’t want to take a cluster down and upgrade all nodes at the same time, there is the possibility of running in a mixed 4.0 / 5.0 mode. To do so, you can first upgrade the master. Then, you can upgrade the workers one at a time. This way you can upgrade the cluster with no downtime. However, we recommend using 5.0 version in whole cluster.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="transitioning_from_postgresql_to_citus.html" class="btn btn-neutral float-right" title="Transitioning From PostgreSQL to Citus" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cluster_management.html" class="btn btn-neutral" title="Cluster Management" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../v5.2/admin_guide/upgrading_citus.html">v5.2</a></li>
+    <li><a href="../../v5.1/admin_guide/upgrading_citus.html">v5.1</a></li>
+    <li><a href="upgrading_citus.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,634 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Metadata Tables Reference &mdash; Citus 5.2.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.2.1 documentation" href="../index.html"/>
+        <link rel="next" title="Configuration Reference" href="configuration.html"/>
+        <link rel="prev" title="User Defined Functions Reference" href="user_defined_functions.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+   window.intercomSettings = {
+     app_id: "jfost7ih",
+   };
+  </script>
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jfost7ih';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/dml.html">Ingesting, Modifying Data (DML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tech_soln/real_time_dashboards.html">Real Time Dashboards</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sql_workarounds.html">SQL Workarounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Metadata Tables Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#partition-table">Partition table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shard-table">Shard table</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#shard-storage-types">Shard Storage Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#shard-placement-table">Shard placement table</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#shard-placement-states">Shard Placement States</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="append.html">Append Distribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Metadata Tables Reference</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="metadata-tables-reference">
+<span id="metadata-tables"></span><h1>Metadata Tables Reference<a class="headerlink" href="#metadata-tables-reference" title="Permalink to this headline">¶</a></h1>
+<p>Citus divides each distributed table into multiple logical shards based on the distribution column. The master then maintains metadata tables to track statistics and information about the health and location of these shards. In this section, we describe each of these metadata tables and their schema. You can view and query these tables using SQL after logging into the master node.</p>
+<div class="section" id="partition-table">
+<h2>Partition table<a class="headerlink" href="#partition-table" title="Permalink to this headline">¶</a></h2>
+<p>The pg_dist_partition table stores metadata about which tables in the database are distributed. For each distributed table, it also stores information about the distribution method and detailed information about the distribution column.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>logicalrelid</td>
+<td>oid</td>
+<td><div class="first last line-block">
+<div class="line">Distributed table to which this row corresponds. This value references</div>
+<div class="line">the relfilenode column in the pg_class system catalog table.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>partmethod</td>
+<td>char</td>
+<td><div class="first last line-block">
+<div class="line">The method used for partitioning / distribution. The values of this</div>
+<div class="line">column corresponding to different distribution methods are :-</div>
+<div class="line">append: &#8216;a&#8217;</div>
+<div class="line">hash: &#8216;h&#8217;</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>partkey</td>
+<td>text</td>
+<td><div class="first last line-block">
+<div class="line">Detailed information about the distribution column including column</div>
+<div class="line">number, type and other relevant information.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">pg_dist_partition</span><span class="p">;</span>
+ <span class="n">logicalrelid</span> <span class="o">|</span> <span class="n">partmethod</span> <span class="o">|</span>                                                        <span class="n">partkey</span>
+<span class="o">--------------+------------+-------------------------------------------------------------------------------------------------------------------------</span>
+       <span class="mi">488843</span> <span class="o">|</span>     <span class="n">r</span>      <span class="o">|</span> <span class="p">{</span><span class="n">VAR</span> <span class="p">:</span><span class="n">varno</span> <span class="mi">1</span> <span class="p">:</span><span class="n">varattno</span> <span class="mi">4</span> <span class="p">:</span><span class="n">vartype</span> <span class="mi">20</span> <span class="p">:</span><span class="n">vartypmod</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span><span class="n">varcollid</span> <span class="mi">0</span> <span class="p">:</span><span class="n">varlevelsup</span> <span class="mi">0</span> <span class="p">:</span><span class="n">varnoold</span> <span class="mi">1</span> <span class="p">:</span><span class="n">varoattno</span> <span class="mi">4</span> <span class="p">:</span><span class="n">location</span> <span class="mi">232</span><span class="p">}</span>
+
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="shard-table">
+<h2>Shard table<a class="headerlink" href="#shard-table" title="Permalink to this headline">¶</a></h2>
+<p>The pg_dist_shard table stores metadata about individual shards of a table. This includes information about which distributed table the shard belongs to and statistics about the distribution column for that shard. For append distributed tables, these statistics correspond to min / max values of the distribution column. In case of hash distributed tables, they are hash token ranges assigned to that shard. These statistics are used for pruning away unrelated shards during SELECT queries.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>logicalrelid</td>
+<td>oid</td>
+<td><div class="first last line-block">
+<div class="line">Distributed table to which this shard belongs. This value references the</div>
+<div class="line">relfilenode column in the pg_class system catalog table.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>shardid</td>
+<td>bigint</td>
+<td><div class="first last line-block">
+<div class="line">Globally unique identifier assigned to this shard.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>shardstorage</td>
+<td>char</td>
+<td><div class="first last line-block">
+<div class="line">Type of storage used for this shard. Different storage types are</div>
+<div class="line">discussed in the table below.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>shardalias</td>
+<td>text</td>
+<td><div class="first last line-block">
+<div class="line">Determines the name used on the worker PostgreSQL database to refer</div>
+<div class="line">to this shard. If NULL, the default name is &#8220;tablename_shardid&#8221;.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>shardminvalue</td>
+<td>text</td>
+<td><div class="first last line-block">
+<div class="line">For append distributed tables, minimum value of the distribution column</div>
+<div class="line">in this shard (inclusive).</div>
+<div class="line">For hash distributed tables, minimum hash token value assigned to that</div>
+<div class="line">shard (inclusive).</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>shardmaxvalue</td>
+<td>text</td>
+<td><div class="first last line-block">
+<div class="line">For append distributed tables, maximum value of the distribution column</div>
+<div class="line">in this shard (inclusive).</div>
+<div class="line">For hash distributed tables, maximum hash token value assigned to that</div>
+<div class="line">shard (inclusive).</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">pg_dist_shard</span><span class="p">;</span>
+ <span class="n">logicalrelid</span> <span class="o">|</span> <span class="n">shardid</span> <span class="o">|</span> <span class="n">shardstorage</span> <span class="o">|</span> <span class="n">shardalias</span> <span class="o">|</span> <span class="n">shardminvalue</span> <span class="o">|</span> <span class="n">shardmaxvalue</span>
+<span class="o">--------------+---------+--------------+------------+---------------+---------------</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102065</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">27</span>            <span class="o">|</span> <span class="mi">14995004</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102066</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">15001035</span>      <span class="o">|</span> <span class="mi">25269705</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102067</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">25273785</span>      <span class="o">|</span> <span class="mi">28570113</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102068</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">28570150</span>      <span class="o">|</span> <span class="mi">28678869</span>
+
+<span class="p">(</span><span class="mi">4</span> <span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="shard-storage-types">
+<h3>Shard Storage Types<a class="headerlink" href="#shard-storage-types" title="Permalink to this headline">¶</a></h3>
+<p>The shardstorage column in pg_dist_shard indicates the type of storage used for the shard. A brief overview of different shard storage types and their representation is below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Storage Type</th>
+<th class="head">Shardstorage value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>TABLE</td>
+<td>&#8216;t&#8217;</td>
+<td><div class="first last line-block">
+<div class="line">Indicates that shard stores data belonging to a regular</div>
+<div class="line">distributed table.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>COLUMNAR</td>
+<td>&#8216;c&#8217;</td>
+<td><div class="first last line-block">
+<div class="line">Indicates that shard stores columnar data. (Used by</div>
+<div class="line">distributed cstore_fdw tables)</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>FOREIGN</td>
+<td>&#8216;f&#8217;</td>
+<td><div class="first last line-block">
+<div class="line">Indicates that shard stores foreign data. (Used by</div>
+<div class="line">distributed file_fdw tables)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="shard-placement-table">
+<h2>Shard placement table<a class="headerlink" href="#shard-placement-table" title="Permalink to this headline">¶</a></h2>
+<p>The pg_dist_shard_placement table tracks the location of shard replicas on worker nodes. Each replica of a shard assigned to a specific node is called a shard placement. This table stores information about the health and location of each shard placement.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>shardid</td>
+<td>bigint</td>
+<td><div class="first last line-block">
+<div class="line">Shard identifier associated with this placement. This values references</div>
+<div class="line">the shardid column in the pg_dist_shard catalog table.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>shardstate</td>
+<td>int</td>
+<td><div class="first last line-block">
+<div class="line">Describes the state of this placement. Different shard states are</div>
+<div class="line">discussed in the section below.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>shardlength</td>
+<td>bigint</td>
+<td><div class="first last line-block">
+<div class="line">For append distributed tables, the size of the shard placement on the</div>
+<div class="line">worker node in bytes.</div>
+<div class="line">For hash distributed tables, zero.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>nodename</td>
+<td>text</td>
+<td><div class="first last line-block">
+<div class="line">DNS host name of the worker node PostgreSQL server hosting this shard</div>
+<div class="line">placement.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>nodeport</td>
+<td>int</td>
+<td><div class="first last line-block">
+<div class="line">Port number on which the worker node PostgreSQL server hosting this</div>
+<div class="line">shard placement is listening.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">pg_dist_shard_placement</span><span class="p">;</span>
+ <span class="n">shardid</span> <span class="o">|</span> <span class="n">shardstate</span> <span class="o">|</span> <span class="n">shardlength</span> <span class="o">|</span> <span class="n">nodename</span>  <span class="o">|</span> <span class="n">nodeport</span>
+<span class="o">---------+------------+-------------+-----------+----------</span>
+  <span class="mi">102065</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">7307264</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+  <span class="mi">102065</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">7307264</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102066</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5890048</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102066</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5890048</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+  <span class="mi">102067</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5242880</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+  <span class="mi">102067</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5242880</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102068</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">3923968</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102068</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">3923968</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+
+<span class="p">(</span><span class="mi">8</span> <span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="shard-placement-states">
+<h3>Shard Placement States<a class="headerlink" href="#shard-placement-states" title="Permalink to this headline">¶</a></h3>
+<p>Citus manages shard health on a per-placement basis and automatically marks a placement as unavailable if leaving the placement in service would put the cluster in an inconsistent state. The shardstate column in the pg_dist_shard_placement table is used to store the state of shard placements. A brief overview of different shard placement states and their representation is below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="19%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">State name</th>
+<th class="head">Shardstate value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>FINALIZED</td>
+<td>1</td>
+<td><div class="first last line-block">
+<div class="line">This is the state new shards are created in. Shard placements</div>
+<div class="line">in this state are considered up-to-date and are used in query</div>
+<div class="line">planning and execution.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>INACTIVE</td>
+<td>3</td>
+<td><div class="first last line-block">
+<div class="line">Shard placements in this state are considered inactive due to</div>
+<div class="line">being out-of-sync with other replicas of the same shard. This</div>
+<div class="line">can occur when an append, modification (INSERT, UPDATE or</div>
+<div class="line">DELETE ) or a DDL operation fails for this placement. The query</div>
+<div class="line">planner will ignore placements in this state during planning and</div>
+<div class="line">execution. Users can synchronize the data in these shards with</div>
+<div class="line">a finalized replica as a background activity.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>TO_DELETE</td>
+<td>4</td>
+<td><div class="first last line-block">
+<div class="line">If Citus attempts to drop a shard placement in response to a</div>
+<div class="line">master_apply_delete_command call and fails, the placement is</div>
+<div class="line">moved to this state. Users can then delete these shards as a</div>
+<div class="line">subsequent background activity.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="user_defined_functions.html" class="btn btn-neutral" title="User Defined Functions Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../v5.2/reference/metadata_tables.html">v5.2</a></li>
+    <li><a href="../v5.1/reference/metadata_tables.html">v5.1</a></li>
+    <li><a href="../v5.0/reference/metadata_tables.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.2.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

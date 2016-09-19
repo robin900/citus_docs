@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Frequently Asked Questions &mdash; Citus 5.1.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.1.0 documentation" href="../index.html"/>
+        <link rel="prev" title="Configuration Reference" href="../reference/configuration.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-cluster.html">Start Demo Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-append-distribution.html">Append-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/working_with_distributed_tables.html">Working with distributed tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/hash_distribution.html">Hash Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/append_distribution.html">Append Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/postgresql_extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-create-primary-keys-on-distributed-tables">Can I create primary keys on distributed tables?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-add-nodes-to-an-existing-citus-cluster">How do I add nodes to an existing Citus cluster?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-change-the-shard-count-for-a-hash-partitioned-table">How do I change the shard count for a hash partitioned table?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-does-citus-hadle-failure-of-a-worker-node">How does citus hadle failure of a worker node?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-does-citus-handle-failover-of-the-master-node">How does Citus handle failover of the master node?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-ingest-the-results-of-a-query-into-a-distributed-table">How do I ingest the results of a query into a distributed table?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-join-distributed-and-non-distributed-tables-together-in-the-same-query">Can I join distributed and non-distributed tables together in the same query?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#are-there-any-postgresql-features-not-supported-by-citusdb">Are there any PostgreSQL features not supported by CitusDB?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-choose-the-shard-count-when-i-hash-partition-my-data">How do I choose the shard count when I hash-partition my data?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-does-citus-support-count-distinct-queries">How does citus support count(distinct) queries?</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Frequently Asked Questions</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="frequently-asked-questions">
+<h1>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="can-i-create-primary-keys-on-distributed-tables">
+<h2>Can I create primary keys on distributed tables?<a class="headerlink" href="#can-i-create-primary-keys-on-distributed-tables" title="Permalink to this headline">¶</a></h2>
+<p>Currently Citus imposes primary key constraint only if the distribution column is a part of the primary key. This assures that the constraint needs to be checked only on one shard to ensure uniqueness.</p>
+</div>
+<div class="section" id="how-do-i-add-nodes-to-an-existing-citus-cluster">
+<h2>How do I add nodes to an existing Citus cluster?<a class="headerlink" href="#how-do-i-add-nodes-to-an-existing-citus-cluster" title="Permalink to this headline">¶</a></h2>
+<p>You can add nodes to a Citus cluster by adding the DNS host name and port of the new node to the pg_worker_list.conf configuration file in the data directory. After adding a node to an existing cluster, it will not contain any data (shards). Citus will start assigning any newly created shards to this node. To rebalance existing shards from the older nodes to the new node, the Citus Enterprise edition provides a shard rebalancer utility. You can find more information about shard rebalancing in the <a class="reference internal" href="../admin_guide/cluster_management.html#cluster-management"><span class="std std-ref">Cluster Management</span></a> section</p>
+</div>
+<div class="section" id="how-do-i-change-the-shard-count-for-a-hash-partitioned-table">
+<h2>How do I change the shard count for a hash partitioned table?<a class="headerlink" href="#how-do-i-change-the-shard-count-for-a-hash-partitioned-table" title="Permalink to this headline">¶</a></h2>
+<p>Optimal shard count is related to the total number of cores on the workers. Citus partitions an incoming query into its fragment queries which run on individual worker shards. Hence the degree of parallelism for each query is governed by the number of shards the query hits. To ensure maximum parallelism, you should create enough shards on each node such that there is at least one shard per CPU core.</p>
+<p>We typically recommend creating a high number of initial shards, e.g. 2x or 4x the number of current CPU cores. This allows for future scaling if you add more workers and CPU cores.</p>
+</div>
+<div class="section" id="how-does-citus-hadle-failure-of-a-worker-node">
+<h2>How does citus hadle failure of a worker node?<a class="headerlink" href="#how-does-citus-hadle-failure-of-a-worker-node" title="Permalink to this headline">¶</a></h2>
+<p>If a worker node fails during e.g. a SELECT query, jobs involving shards from that server will automatically fail over to replica shards located on healthy hosts. This means intermittent failures will not require restarting potentially long-running analytical queries, so long as the shards involved can be reached on other healthy hosts.
+You can find more information about Citus&#8217; failure handling logic in <a class="reference internal" href="../admin_guide/cluster_management.html#dealing-with-node-failures"><span class="std std-ref">Dealing With Node Failures</span></a>.</p>
+</div>
+<div class="section" id="how-does-citus-handle-failover-of-the-master-node">
+<h2>How does Citus handle failover of the master node?<a class="headerlink" href="#how-does-citus-handle-failover-of-the-master-node" title="Permalink to this headline">¶</a></h2>
+<p>As the Citus master node is similar to a standard PostgreSQL server, regular PostgreSQL synchronous replication and failover can be used to provide higher availability of the master node. Many of our customers use synchronous replication in this way to add resilience against master node failure. You can find more information about handling <a class="reference internal" href="../admin_guide/cluster_management.html#master-node-failures"><span class="std std-ref">Master Node Failures</span></a>.</p>
+</div>
+<div class="section" id="how-do-i-ingest-the-results-of-a-query-into-a-distributed-table">
+<h2>How do I ingest the results of a query into a distributed table?<a class="headerlink" href="#how-do-i-ingest-the-results-of-a-query-into-a-distributed-table" title="Permalink to this headline">¶</a></h2>
+<p>Citus currently doesn&#8217;t support the INSERT / SELECT syntax for copying the results of a query into a distributed table. As a simple workaround, you could use</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">psql</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;COPY (query) TO STDOUT&quot;</span> <span class="o">|</span> \
+<span class="n">psql</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;COPY table FROM STDIN&quot;</span>
+</pre></div>
+</div>
+<p>In addition to the above, there are other workarounds which are more complex to implement but are more efficient. Please contact us if your use-case demands such ingest workflows.</p>
+</div>
+<div class="section" id="can-i-join-distributed-and-non-distributed-tables-together-in-the-same-query">
+<h2>Can I join distributed and non-distributed tables together in the same query?<a class="headerlink" href="#can-i-join-distributed-and-non-distributed-tables-together-in-the-same-query" title="Permalink to this headline">¶</a></h2>
+<p>If you want to do joins between small dimension tables (regular Postgres tables) and large tables (distributed), then you could distribute the small tables by creating 1 shard and N (with N being the number of workers) replicas. Citus will then be able to push the join down to the worker nodes. If the local tables you are referring to are large, we generally recommend to distribute the larger tables to reap the benefits of sharding and parallelization which Citus offers. For a deeper discussion into the way Citus handles joins, please see our <a class="reference internal" href="../dist_tables/querying.html#joins"><span class="std std-ref">Joins</span></a> documentation.</p>
+</div>
+<div class="section" id="are-there-any-postgresql-features-not-supported-by-citusdb">
+<h2>Are there any PostgreSQL features not supported by CitusDB?<a class="headerlink" href="#are-there-any-postgresql-features-not-supported-by-citusdb" title="Permalink to this headline">¶</a></h2>
+<p>Since Citus provides distributed functionality by extending PostgreSQL, it uses the standard PostgreSQL SQL constructs. This includes the support for wide range of data types (including semi-structured data types like jsonb, hstore), full text search, operators and functions, foreign data wrappers, etc.</p>
+<p>PostgreSQL has a wide SQL coverage; and Citus does not support that entire spectrum out of the box when querying distributed tables. Some constructs which aren&#8217;t supported natively for distributed tables are:</p>
+<ul class="simple">
+<li>Window Functions</li>
+<li>CTEs</li>
+<li>Set operations</li>
+<li>Transactional semantics for queries that span across multiple shards</li>
+</ul>
+<p>It is important to note that you can still run all of those queries on regular PostgreSQL tables in the Citus cluster. As a result, you can address many use cases through a combination of rewriting the queries and/or adding some extensions. We are working on increasing the distributed SQL coverage for Citus to further simplify these queries. So, if you run into an unsupported construct, please contact us and we will do our best to help you out.</p>
+</div>
+<div class="section" id="how-do-i-choose-the-shard-count-when-i-hash-partition-my-data">
+<h2>How do I choose the shard count when I hash-partition my data?<a class="headerlink" href="#how-do-i-choose-the-shard-count-when-i-hash-partition-my-data" title="Permalink to this headline">¶</a></h2>
+<p>Optimal shard count is related to the total number of cores on the workers. Citus partitions an incoming query into its fragment queries which run on individual worker shards. Hence, the degree of parallelism for each query is governed by the number of shards the query hits. To ensure maximum parallelism, you should create enough shards on each node such that there is at least one shard per CPU core.</p>
+<p>We typically recommend creating a high number of initial shards, e.g. 2x or 4x the number of current CPU cores. This allows for future scaling if you add more workers and CPU cores.</p>
+</div>
+<div class="section" id="how-does-citus-support-count-distinct-queries">
+<h2>How does citus support count(distinct) queries?<a class="headerlink" href="#how-does-citus-support-count-distinct-queries" title="Permalink to this headline">¶</a></h2>
+<p>Citus can push down count(distinct) entirely down to the worker nodes in certain situations (for example if the distinct is on the distribution column or is grouped by the distribution column in hash-partitioned tables). In other situations, Citus uses the HyperLogLog extension to compute approximate distincts. You can read more details on how to enable approximate <a class="reference internal" href="../dist_tables/querying.html#count-distinct"><span class="std std-ref">Count (Distinct) Aggregates</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../reference/configuration.html" class="btn btn-neutral" title="Configuration Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../v5.2/faq/faq.html">v5.2</a></li>
+    <li><a href="faq.html">v5.1</a></li>
+    <li><a href="../../v5.0/index.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

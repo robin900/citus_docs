@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Amazon Web Services &mdash; Citus 5.1.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.1.0 documentation" href="../index.html"/>
+        <link rel="up" title="Multi-Machine Cluster" href="production.html"/>
+        <link rel="next" title="Multi-node setup on Fedora, CentOS, or Red Hat" href="production_rhel.html"/>
+        <link rel="prev" title="Multi-Machine Cluster" href="production.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-cluster.html">Start Demo Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-append-distribution.html">Append-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="production.html">Multi-Machine Cluster</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Amazon Web Services</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#managed-citus-cloud-deployment">Managed Citus Cloud Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual-cloudformation-deployment">Manual CloudFormation Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="production_rhel.html">Multi-node setup on Fedora, CentOS, or Red Hat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production_deb.html">Multi-node setup on Ubuntu or Debian</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/working_with_distributed_tables.html">Working with distributed tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/hash_distribution.html">Hash Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/append_distribution.html">Append Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/postgresql_extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="production.html">Multi-Machine Cluster</a> &raquo;</li>
+      
+    <li>Amazon Web Services</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="amazon-web-services">
+<span id="multi-machine-aws"></span><h1>Amazon Web Services<a class="headerlink" href="#amazon-web-services" title="Permalink to this headline">¶</a></h1>
+<p>There are two approaches for running Citus on AWS. You can provision it manually using our CloudFormation template, or use Citus Cloud for automated provisioning, backup, and monitoring.</p>
+<div class="section" id="managed-citus-cloud-deployment">
+<span id="multi-machine-cloud"></span><h2>Managed Citus Cloud Deployment<a class="headerlink" href="#managed-citus-cloud-deployment" title="Permalink to this headline">¶</a></h2>
+<p>Citus Cloud is a fully managed &#8220;Citus-as-a-Service&#8221; built on top of Amazon Web Services. It&#8217;s an easy way to provision and monitor a high-availability cluster.</p>
+<p class="wy-text-center">
+  <a href="https://www.citusdata.com/cloud" class="btn btn-neutral"
+     onclick="trackOutboundLink('https://www.citusdata.com/cloud'); return false;">
+    Try Citus Cloud
+    <span class="fa fa-cloud"></span>
+  </a>
+</p></div>
+<div class="section" id="manual-cloudformation-deployment">
+<span id="multi-machine-manual"></span><h2>Manual CloudFormation Deployment<a class="headerlink" href="#manual-cloudformation-deployment" title="Permalink to this headline">¶</a></h2>
+<p>Alternately you can manage a Citus cluster manually on <a class="reference external" href="http://aws.amazon.com/ec2/">EC2</a> instances using CloudFormation. The CloudFormation template for Citus enables users to start a Citus cluster on AWS in just a few clicks, with also cstore_fdw extension for columnar storage is pre-installed. The template automates the installation and configuration process so that the users don’t need to do any extra configuration steps while installing Citus.</p>
+<p>Please ensure that you have an active AWS account and an <a class="reference external" href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon EC2 key pair</a> before proceeding with the next steps.</p>
+<p><strong>Introduction</strong></p>
+<p><a class="reference external" href="http://aws.amazon.com/cloudformation/">CloudFormation</a> lets you create a &#8220;stack&#8221; of AWS resources, such as EC2 instances and security groups, from a template defined in a JSON file. You can create multiple stacks from the same template without conflict, as long as they have unique stack names.</p>
+<p>Below, we explain in detail the steps required to setup a multi-node Citus cluster on AWS.</p>
+<p><strong>1. Start a Citus cluster</strong></p>
+<p>To begin, you can start a Citus cluster using CloudFormation by clicking <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Citus&templateURL=https:%2F%2Fcitus-deployment.s3.amazonaws.com%2Faws%2Fcitus5%2Fcloudformation%2Fcitus5.json" onclick="trackOutboundLink('https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=Citus&templateURL=https:%2F%2Fcitus-deployment.s3.amazonaws.com%2Faws%2Fcitus5%2Fcloudformation%2Fcitus5.json'); return false;">here</a>. This will take you directly to the AWS CloudFormation console.</p><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You might need to login to AWS at this step if you aren’t already logged in.</p>
+</div>
+<p><strong>2. Select Citus template</strong></p>
+<p>You will see select template screen. Citus template is already selected, just click Next.</p>
+<p><strong>3. Fill the form with details about your cluster</strong></p>
+<p>In the form, pick a unique name for your stack. You can customize your cluster setup by setting availability zones, number of workers and the instance types. You also need to fill in the AWS keypair which you will use to access the cluster.</p>
+<img alt="../_images/aws_parameters.png" src="../_images/aws_parameters.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Please ensure that you choose unique names for all your clusters. Otherwise, the cluster creation may fail with the error “Template_name template already created”.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you want to launch a cluster in a region other than US East, you can update the region in the top-right corner of the AWS console as shown below.</p>
+</div>
+<a class="reference internal image-reference" href="../_images/aws_region.png"><img alt="../_images/aws_region.png" class="align-center" src="../_images/aws_region.png" style="width: 327.0px; height: 296.5px;" /></a>
+<p><strong>4. Acknowledge IAM capabilities</strong></p>
+<p>The next screen displays Tags and a few advanced options. For simplicity, we use the default options and click Next.</p>
+<p>Finally, you need to acknowledge IAM capabilities, which give the master node limited access to the EC2 APIs to obtain the list of worker IPs. Your AWS account needs to have IAM access to perform this step. After ticking the checkbox, you can click on Create.</p>
+<img alt="../_images/aws_iam.png" src="../_images/aws_iam.png" />
+<p><strong>5. Cluster launching</strong></p>
+<p>After the above steps, you will be redirected to the CloudFormation console. You can click the refresh button on the top-right to view your stack. In about 10 minutes, stack creation will complete and the hostname of the master node will appear in the Outputs tab.</p>
+<img alt="../_images/aws_cluster_launch.png" src="../_images/aws_cluster_launch.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Sometimes, you might not see the outputs tab on your screen by default. In that case, you should click on “restore” from the menu on the bottom right of your screen.</p>
+</div>
+<img alt="../_images/aws_restore_icon.png" class="align-center" src="../_images/aws_restore_icon.png" />
+<p><strong>Troubleshooting:</strong></p>
+<p>You can use the cloudformation console shown above to monitor your cluster.</p>
+<p>If something goes wrong during set-up, the stack will be rolled back but not deleted. In that case, you can either use a different stack name or delete the old stack before creating a new one with the same name.</p>
+<p><strong>6. Login to the cluster</strong></p>
+<p>Once the cluster creation completes, you can immediately connect to the master node using SSH with username ec2-user and the keypair you filled in. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="o">-</span><span class="n">i</span> <span class="n">your</span><span class="o">-</span><span class="n">keypair</span><span class="o">.</span><span class="n">pem</span> <span class="n">ec2</span><span class="o">-</span><span class="n">user</span><span class="nd">@ec2</span><span class="o">-</span><span class="mi">54</span><span class="o">-</span><span class="mi">82</span><span class="o">-</span><span class="mi">70</span><span class="o">-</span><span class="mf">31.</span><span class="n">compute</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<p><strong>7. Ready to use the cluster</strong></p>
+<p>At this step, you have completed the installation process and are ready to use the Citus cluster. You can now login to the master node and start executing commands. The command below, when run in the psql shell, should output the worker nodes mentioned in the pg_worker_list.conf.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">pgsql</span><span class="o">-</span><span class="mf">9.5</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">psql</span> <span class="o">-</span><span class="n">h</span> <span class="n">localhost</span> <span class="o">-</span><span class="n">d</span> <span class="n">postgres</span>
+<span class="n">select</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">master_get_active_worker_nodes</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><strong>8. Cluster notes</strong></p>
+<p>The template automatically tunes the system configuration for Citus and sets up RAID on the SSD drives where appropriate, making it a great starting point even for production systems.</p>
+<p>The database and its configuration files are stored in /data/base. So, to change any configuration parameters, you need to update the postgresql.conf file at /data/base/postgresql.conf.</p>
+<p>Similarly to restart the database, you can use the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">pgsql</span><span class="o">-</span><span class="mf">9.5</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">pg_ctl</span> <span class="o">-</span><span class="n">D</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">base</span> <span class="o">-</span><span class="n">l</span> <span class="n">logfile</span> <span class="n">restart</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You typically want to avoid making changes to resources created by CloudFormation, such as terminating EC2 instances. To shut the cluster down, you can simply delete the stack in the CloudFormation console.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="production_rhel.html" class="btn btn-neutral float-right" title="Multi-node setup on Fedora, CentOS, or Red Hat" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="production.html" class="btn btn-neutral" title="Multi-Machine Cluster" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../v5.2/installation/multi_machine_aws.html">v5.2</a></li>
+    <li><a href="multi_machine_aws.html">v5.1</a></li>
+    <li><a href="../../v5.0/installation/multi_machine_aws.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Start Demo Cluster &mdash; Citus 5.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Real Time Aggregation" href="tut-real-time.html"/>
+        <link rel="prev" title="Architecture" href="../aboutcitus/introduction_to_citus.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="https://www.citusdata.com/sites/default/files/logo_0_0.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Start Demo Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tut-real-time.html">Real Time Aggregation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tut-user-data.html">Updatable User Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/working_with_distributed_tables.html">Working with distributed tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/append_distribution.html">Append Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/hash_distribution.html">Hash Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/range_distribution.html">Range Distribution (Manual)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/postgresql_extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading to Citus 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Start Demo Cluster</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="start-demo-cluster">
+<h1>Start Demo Cluster<a class="headerlink" href="#start-demo-cluster" title="Permalink to this headline">¶</a></h1>
+<p>To do the tutorials you&#8217;ll need a single-machine Citus cluster with a master and two worker PostgreSQL instances. Follow these instructions to create a temporary installation which is quick to try and easy to remove.</p>
+<p><strong>1. Download the package</strong></p>
+<ul>
+<li> OS X Package: <a href="https://packages.citusdata.com/tutorials/citus-tutorial-osx-1.0.0.tar.gz" onclick="trackOutboundLink('https://packages.citusdata.com/tutorials/citus-tutorial-osx-1.0.0.tar.gz'); return false;">Download</a>
+</li>
+<li> Linux Package: <a href="https://packages.citusdata.com/tutorials/citus-tutorial-linux-1.0.0.tar.gz" onclick="trackOutboundLink('https://packages.citusdata.com/tutorials/citus-tutorial-linux-1.0.0.tar.gz'); return false;">Download</a>
+</li>
+</ul><p>Download and unzip it into a directory of your choosing. Then, enter that directory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> citus-tutorial
+</pre></div>
+</div>
+<p><strong>2. Initialize the cluster</strong></p>
+<p>Citus has two kinds of components, the master and the workers. The master
+coordinates queries and maintains metadata on where in the cluster each row of
+data is. The workers hold your data and respond to queries.</p>
+<p>Let&#8217;s create directories for those nodes to store their data in:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/initdb -D data/master
+bin/initdb -D data/worker
+</pre></div>
+</div>
+<p>The above commands will give you warnings about trust authentication. Those
+will become important when you&#8217;re setting up a production instance of Citus but
+for now you can safely ignore them.</p>
+<p>The master needs to know where it can find the worker. To tell it you can run:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;localhost 9701&quot;</span> &gt;&gt; data/master/pg_worker_list.conf
+</pre></div>
+</div>
+<p>We assume that ports 9700 (for the master) and 9701 (for the worker) are
+available on your machine. Feel free to use different ports if they are in use.</p>
+<p>Citus is a Postgres extension. To tell Postgres to use this extension,
+you&#8217;ll need to add it to a configuration variable called
+<code class="docutils literal"><span class="pre">shared_preload_libraries</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;shared_preload_libraries = &#39;citus&#39;&quot;</span> &gt;&gt; data/master/postgresql.conf
+<span class="nb">echo</span> <span class="s2">&quot;shared_preload_libraries = &#39;citus&#39;&quot;</span> &gt;&gt; data/worker/postgresql.conf
+</pre></div>
+</div>
+<p><strong>3. Start the master and worker</strong></p>
+<p>Let&#8217;s start the databases:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/pg_ctl -D data/master -o <span class="s2">&quot;-p 9700&quot;</span> -l master_logfile start
+bin/pg_ctl -D data/worker -o <span class="s2">&quot;-p 9701&quot;</span> -l worker_logfile start
+</pre></div>
+</div>
+<p>And initialize them:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/createdb -p <span class="m">9700</span> <span class="k">$(</span>whoami<span class="k">)</span>
+bin/createdb -p <span class="m">9701</span> <span class="k">$(</span>whoami<span class="k">)</span>
+</pre></div>
+</div>
+<p>Above you added Citus to <code class="docutils literal"><span class="pre">shared_preload_libraries</span></code>. That lets it hook into some
+deep parts of Postgres, swapping out the query planner and executor.  Here, we
+load the user-facing side of Citus (such as the functions you&#8217;ll soon call):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/psql -p <span class="m">9700</span> -c <span class="s2">&quot;CREATE EXTENSION citus;&quot;</span>
+bin/psql -p <span class="m">9701</span> -c <span class="s2">&quot;CREATE EXTENSION citus;&quot;</span>
+</pre></div>
+</div>
+<p><strong>4. Ready for the tutorials!</strong></p>
+<p>Your cluster is running and eagerly awaiting data. Proceed to the
+<a class="reference internal" href="tut-real-time.html#tut-real-time"><span class="std std-ref">Real Time Aggregation</span></a> tutorial to begin learning
+how to use Citus.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tut-real-time.html" class="btn btn-neutral float-right" title="Real Time Aggregation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../aboutcitus/introduction_to_citus.html" class="btn btn-neutral" title="Architecture" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../v5.2/index.html">v5.2</a></li>
+    <li><a href="../../v5.1/tutorials/tut-cluster.html">v5.1</a></li>
+    <li><a href="tut-cluster.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

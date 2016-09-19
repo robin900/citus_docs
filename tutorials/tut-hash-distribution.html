@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hash-Distributed Data &mdash; Citus 5.2.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.2.1 documentation" href="../index.html"/>
+        <link rel="next" title="Requirements" href="../installation/requirements.html"/>
+        <link rel="prev" title="Architecture" href="../aboutcitus/introduction_to_citus.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+   window.intercomSettings = {
+     app_id: "jfost7ih",
+   };
+  </script>
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jfost7ih';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hash-Distributed Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#start-demo-cluster">Start Demo Cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ingest-data">Ingest Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-queries">Run Queries</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/dml.html">Ingesting, Modifying Data (DML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tech_soln/real_time_dashboards.html">Real Time Dashboards</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/sql_workarounds.html">SQL Workarounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/append.html">Append Distribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Hash-Distributed Data</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hash-distributed-data">
+<h1>Hash-Distributed Data<a class="headerlink" href="#hash-distributed-data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="start-demo-cluster">
+<h2>Start Demo Cluster<a class="headerlink" href="#start-demo-cluster" title="Permalink to this headline">¶</a></h2>
+<p>To do the tutorial you&#8217;ll need a single-machine Citus cluster with a master and two worker PostgreSQL instances. Follow these instructions to create a temporary installation which is quick to try and easy to remove.</p>
+<p><strong>1. Download the package</strong></p>
+<ul>
+<li> OS X Package: <a href="https://packages.citusdata.com/tutorials/citus-tutorial-osx-1.2.0.tar.gz" onclick="trackOutboundLink('https://packages.citusdata.com/tutorials/citus-tutorial-osx-1.2.0.tar.gz'); return false;">Download</a>
+</li>
+<li> Linux Package: <a href="https://packages.citusdata.com/tutorials/citus-tutorial-linux-1.2.0.tar.gz" onclick="trackOutboundLink('https://packages.citusdata.com/tutorials/citus-tutorial-linux-1.2.0.tar.gz'); return false;">Download</a>
+</li>
+</ul><p>Download and unzip it into a directory of your choosing. Then, enter that directory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> citus-tutorial
+</pre></div>
+</div>
+<p><strong>2. Initialize the cluster</strong></p>
+<p>Citus has two kinds of components, the master and the workers. The master
+coordinates queries and maintains metadata on where in the cluster each row of
+data is. The workers hold your data and respond to queries.</p>
+<p>Let&#8217;s create directories for those nodes to store their data in:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/initdb -D data/master
+bin/initdb -D data/worker
+</pre></div>
+</div>
+<p>The above commands will give you warnings about trust authentication. Those
+will become important when you&#8217;re setting up a production instance of Citus but
+for now you can safely ignore them.</p>
+<p>The master needs to know where it can find the worker. To tell it you can run:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;localhost 9701&quot;</span> &gt;&gt; data/master/pg_worker_list.conf
+</pre></div>
+</div>
+<p>We assume that ports 9700 (for the master) and 9701 (for the worker) are
+available on your machine. Feel free to use different ports if they are in use.</p>
+<p>Citus is a Postgres extension. To tell Postgres to use this extension,
+you&#8217;ll need to add it to a configuration variable called
+<code class="docutils literal"><span class="pre">shared_preload_libraries</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;shared_preload_libraries = &#39;citus&#39;&quot;</span> &gt;&gt; data/master/postgresql.conf
+<span class="nb">echo</span> <span class="s2">&quot;shared_preload_libraries = &#39;citus&#39;&quot;</span> &gt;&gt; data/worker/postgresql.conf
+</pre></div>
+</div>
+<p><strong>3. Start the master and worker</strong></p>
+<p>Let&#8217;s start the databases:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/pg_ctl -D data/master -o <span class="s2">&quot;-p 9700&quot;</span> -l master_logfile start
+bin/pg_ctl -D data/worker -o <span class="s2">&quot;-p 9701&quot;</span> -l worker_logfile start
+</pre></div>
+</div>
+<p>And initialize them:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/createdb -p <span class="m">9700</span> <span class="k">$(</span>whoami<span class="k">)</span>
+bin/createdb -p <span class="m">9701</span> <span class="k">$(</span>whoami<span class="k">)</span>
+</pre></div>
+</div>
+<p>Above you added Citus to <code class="docutils literal"><span class="pre">shared_preload_libraries</span></code>. That lets it hook into some
+deep parts of Postgres, swapping out the query planner and executor.  Here, we
+load the user-facing side of Citus (such as the functions you&#8217;ll soon call):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/psql -p <span class="m">9700</span> -c <span class="s2">&quot;CREATE EXTENSION citus;&quot;</span>
+bin/psql -p <span class="m">9701</span> -c <span class="s2">&quot;CREATE EXTENSION citus;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ingest-data">
+<h2>Ingest Data<a class="headerlink" href="#ingest-data" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial we&#8217;ll look at a stream of live wikipedia edits. Wikimedia is
+kind enough to publish all changes happening across all their sites in real time;
+this can be a lot of events!</p>
+<p>Now that your cluster is running, open a prompt to the master instance:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> citus-tutorial
+bin/psql postgresql://:9700
+</pre></div>
+</div>
+<p>This will open a new prompt. You can leave it at any time by hitting
+<code class="kbd docutils literal"><span class="pre">Ctrl</span></code> + <code class="kbd docutils literal"><span class="pre">D</span></code>.</p>
+<p>This time we&#8217;re going to make two tables.</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">wikipedia_editors</span> <span class="p">(</span>
+  <span class="n">editor</span> <span class="nb">TEXT</span> <span class="k">UNIQUE</span><span class="p">,</span> <span class="c1">-- The name of the editor</span>
+  <span class="n">bot</span> <span class="nb">BOOLEAN</span><span class="p">,</span> <span class="c1">-- Whether they are a bot (self-reported)</span>
+
+  <span class="n">edit_count</span> <span class="nb">INT</span><span class="p">,</span> <span class="c1">-- How many edits they&#39;ve made</span>
+  <span class="n">added_chars</span> <span class="nb">INT</span><span class="p">,</span> <span class="c1">-- How many characters they&#39;ve added</span>
+  <span class="n">removed_chars</span> <span class="nb">INT</span><span class="p">,</span> <span class="c1">-- How many characters they&#39;ve removed</span>
+
+  <span class="n">first_seen</span> <span class="n">TIMESTAMPTZ</span><span class="p">,</span> <span class="c1">-- The time we first saw them edit</span>
+  <span class="n">last_seen</span> <span class="n">TIMESTAMPTZ</span> <span class="c1">-- The time we last saw them edit</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">wikipedia_changes</span> <span class="p">(</span>
+  <span class="n">editor</span> <span class="nb">TEXT</span><span class="p">,</span> <span class="c1">-- The editor who made the change</span>
+  <span class="n">time</span> <span class="k">TIMESTAMP</span> <span class="k">WITH</span> <span class="n">TIME</span> <span class="k">ZONE</span><span class="p">,</span> <span class="c1">-- When they made it</span>
+
+  <span class="n">wiki</span> <span class="nb">TEXT</span><span class="p">,</span> <span class="c1">-- Which wiki they edited</span>
+  <span class="n">title</span> <span class="nb">TEXT</span><span class="p">,</span> <span class="c1">-- The name of the page they edited</span>
+
+  <span class="k">comment</span> <span class="nb">TEXT</span><span class="p">,</span> <span class="c1">-- The message they described the change with</span>
+  <span class="n">minor</span> <span class="nb">BOOLEAN</span><span class="p">,</span> <span class="c1">-- Whether this was a minor edit (self-reported)</span>
+  <span class="k">type</span> <span class="nb">TEXT</span><span class="p">,</span> <span class="c1">-- &quot;new&quot; if this created the page, &quot;edit&quot; otherwise</span>
+
+  <span class="n">old_length</span> <span class="nb">INT</span><span class="p">,</span> <span class="c1">-- how long the page used to be</span>
+  <span class="n">new_length</span> <span class="nb">INT</span> <span class="c1">-- how long the page is as of this edit</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>These tables are regular Postgres tables. We need to tell Citus that they
+should be distributed tables, stored across the cluster.</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">master_create_distributed_table</span><span class="p">(</span>
+  <span class="s1">&#39;wikipedia_changes&#39;</span><span class="p">,</span> <span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;hash&#39;</span>
+<span class="p">);</span>
+<span class="k">SELECT</span> <span class="n">master_create_distributed_table</span><span class="p">(</span>
+  <span class="s1">&#39;wikipedia_editors&#39;</span><span class="p">,</span> <span class="s1">&#39;editor&#39;</span><span class="p">,</span> <span class="s1">&#39;hash&#39;</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>These say to store each table as a collection of shards, each
+responsible for holding a different subset of the data. The shard
+a particular row belongs in will be computed by hashing the <code class="docutils literal"><span class="pre">editor</span></code>
+column. The page on <a class="reference internal" href="../dist_tables/concepts.html#distributed-tables"><span class="std std-ref">Picking a Distribution Column</span></a> goes into more detail.</p>
+<p>Finally, create the shards:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">master_create_worker_shards</span><span class="p">(</span><span class="s1">&#39;wikipedia_editors&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="n">master_create_worker_shards</span><span class="p">(</span><span class="s1">&#39;wikipedia_changes&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This tells Citus to create 16 shards for each table, and save 1 replica of
+each. You can ask Citus to store multiple copies of each shard, which allows it
+to recover from worker failures without losing data or dropping queries.
+However, in this example cluster we only have 1 worker, so Citus would error
+out if we asked it to store any more than 1 replica.</p>
+<p>Now we&#8217;re ready to accept some data! <strong>Open a separate terminal</strong>
+and run the data ingest script we&#8217;ve made for you in this new terminal:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># - in a new terminal -</span>
+
+<span class="nb">cd</span> citus-tutorial
+scripts/collect-wikipedia-user-data postgresql://:9700
+</pre></div>
+</div>
+<p>This should keep running and aggregating data on the users who are
+editting right now.</p>
+</div>
+<div class="section" id="run-queries">
+<h2>Run Queries<a class="headerlink" href="#run-queries" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s run some queries! If you run any of these
+queries multiple times you&#8217;ll see the results update as more data
+is ingested. Returning to our existing psql terminal we can ask
+some simple questions, such as finding edits which were made by
+bots:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="c1">-- back in the original (psql) terminal</span>
+
+<span class="k">SELECT</span> <span class="k">comment</span> <span class="k">FROM</span> <span class="n">wikipedia_changes</span> <span class="k">c</span><span class="p">,</span> <span class="n">wikipedia_editors</span> <span class="n">e</span>
+<span class="k">WHERE</span> <span class="k">c</span><span class="p">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">editor</span> <span class="k">AND</span> <span class="n">e</span><span class="p">.</span><span class="n">bot</span> <span class="k">IS</span> <span class="k">true</span> <span class="k">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Above, when we created our two tables, we partitioned them along the same
+column and created an equal number of shards for each. Doing this means that
+all data for each editor is kept on the same machine, or, colocated.</p>
+<p>How many pages have been created by bots? By users?</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">bot</span><span class="p">,</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">pages_created</span>
+<span class="k">FROM</span> <span class="n">wikipedia_changes</span> <span class="k">c</span><span class="p">,</span>
+     <span class="n">wikipedia_editors</span> <span class="n">e</span>
+<span class="k">WHERE</span> <span class="k">c</span><span class="p">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">editor</span>
+      <span class="k">AND</span> <span class="k">type</span> <span class="o">=</span> <span class="s1">&#39;new&#39;</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">bot</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Citus can also perform joins where the rows to be joined are not stored on the
+same machine. But, joins involving colocated rows usually run <cite>faster</cite> than
+their non-distributed versions, because they can run across all machines and
+shards in parallel.</p>
+<p>A surprising amount of the content in wikipedia is written by users who stop by
+to make just one or two edits and don&#8217;t even bother to create an account. Their
+username is just their ip address, which will look something like &#8216;95.180.5.193&#8217;
+or &#8216;2607:FB90:25C8:8785:0:42:36E9:7E01&#8217;.</p>
+<p>We can (using a very rough regex), find their edits:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">editor</span> <span class="k">SIMILAR</span> <span class="k">TO</span> <span class="s1">&#39;[0-9.A-F:]+&#39;</span> <span class="k">AS</span> <span class="n">ip_editor</span><span class="p">,</span>
+       <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">edit_count</span><span class="p">,</span>
+       <span class="k">SUM</span><span class="p">(</span><span class="n">added_chars</span><span class="p">)</span> <span class="k">AS</span> <span class="n">added_chars</span>
+<span class="k">FROM</span> <span class="n">wikipedia_editors</span> <span class="k">WHERE</span> <span class="n">bot</span> <span class="k">is</span> <span class="k">false</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">ip_editor</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Usually, around a fifth of all non-bot edits are made from unregistered
+editors. The real percentage is a lot higher, since &#8220;bot&#8221; is a user-settable
+flag which many bots neglect to set.</p>
+<p>This script showed a data layout which many Citus users choose. One
+table stored a stream of events while another table stored some
+aggregations of those events and made queries over them quick.</p>
+<p>We hope you enjoyed working through this tutorial. Once you&#8217;re ready
+to stop the cluster run these commands:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>bin/pg_ctl -D data/master stop
+bin/pg_ctl -D data/worker stop
+</pre></div>
+</div>
+<script type="text/javascript">
+Intercom('trackEvent', 'docs-hash-tutorial-pageview');
+</script></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../installation/requirements.html" class="btn btn-neutral float-right" title="Requirements" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../aboutcitus/introduction_to_citus.html" class="btn btn-neutral" title="Architecture" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../v5.2/tutorials/tut-hash-distribution.html">v5.2</a></li>
+    <li><a href="../v5.1/tutorials/tut-hash-distribution.html">v5.1</a></li>
+    <li><a href="../v5.0/index.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.2.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

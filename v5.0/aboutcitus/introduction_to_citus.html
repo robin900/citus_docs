@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Architecture &mdash; Citus 5.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.0.0 documentation" href="../index.html"/>
+        <link rel="next" title="Start Demo Cluster" href="../tutorials/tut-cluster.html"/>
+        <link rel="prev" title="What is Citus?" href="what_is_citus.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="https://www.citusdata.com/sites/default/files/logo_0_0.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#master-worker-nodes">Master / Worker Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logical-sharding">Logical Sharding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metadata-tables">Metadata Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#query-processing">Query Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#failure-handling">Failure Handling</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-cluster.html">Start Demo Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-real-time.html">Real Time Aggregation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-user-data.html">Updatable User Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/working_with_distributed_tables.html">Working with distributed tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/append_distribution.html">Append Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/hash_distribution.html">Hash Distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/range_distribution.html">Range Distribution (Manual)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/postgresql_extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance/performance_tuning.html">Query Performance Tuning</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading to Citus 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Architecture</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="architecture">
+<span id="introduction-to-citus"></span><h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
+<p>At a high level, Citus distributes the data across a cluster of commodity servers.
+Incoming SQL queries are then parallel processed across these servers.</p>
+<img alt="../_images/citus-basic-arch.png" src="../_images/citus-basic-arch.png" />
+<p>In the sections below, we briefly explain the concepts relating to Citus’s architecture.</p>
+<div class="section" id="master-worker-nodes">
+<h2>Master / Worker Nodes<a class="headerlink" href="#master-worker-nodes" title="Permalink to this headline">¶</a></h2>
+<p>You first choose one of the PostgreSQL instances in the cluster as the Citus master. You
+then add the DNS names of worker PostgreSQL instances (Citus workers) to a membership file on
+the master. From that point on, you interact with the master through standard PostgreSQL
+interfaces for data loading and querying. All the data is distributed across the workers.
+The master only stores metadata about the shards.</p>
+</div>
+<div class="section" id="logical-sharding">
+<h2>Logical Sharding<a class="headerlink" href="#logical-sharding" title="Permalink to this headline">¶</a></h2>
+<p>Citus utilizes a modular block architecture which is similar to Hadoop Distributed File System blocks but uses PostgreSQL tables on the workers instead of files. Each of these tables is a horizontal partition or a logical “shard”. The Citus master then maintains metadata tables which track all the workers and the locations of the shards on the workers.</p>
+<p>Each shard is replicated on at least two of the workers (Users can configure this to a higher value). As a result, the loss of a single machine does not impact data availability. The Citus logical sharding architecture also allows new workers to be added at any time to increase the capacity and processing power of the cluster.</p>
+</div>
+<div class="section" id="metadata-tables">
+<h2>Metadata Tables<a class="headerlink" href="#metadata-tables" title="Permalink to this headline">¶</a></h2>
+<p>The Citus master maintains metadata tables to track all the workers and the locations of the database shards on them. These tables also maintain statistics like size and min/max values about the shards which help Citus’s distributed query planner to optimize the incoming queries. The metadata tables are small (typically a few MBs in size) and can be replicated and quickly restored if the master ever experiences a failure.</p>
+<p>You can view the metadata by running the following queries on the Citus master.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">pg_dist_partition</span><span class="p">;</span>
+ <span class="n">logicalrelid</span> <span class="o">|</span> <span class="n">partmethod</span> <span class="o">|</span>                                                        <span class="n">partkey</span>
+<span class="o">--------------+------------+-------------------------------------------------------------------------------------------------------------------------</span>
+       <span class="mi">488843</span> <span class="o">|</span> <span class="n">r</span>          <span class="o">|</span> <span class="p">{</span><span class="n">VAR</span> <span class="p">:</span><span class="n">varno</span> <span class="mi">1</span> <span class="p">:</span><span class="n">varattno</span> <span class="mi">4</span> <span class="p">:</span><span class="n">vartype</span> <span class="mi">20</span> <span class="p">:</span><span class="n">vartypmod</span> <span class="o">-</span><span class="mi">1</span> <span class="p">:</span><span class="n">varcollid</span> <span class="mi">0</span> <span class="p">:</span><span class="n">varlevelsup</span> <span class="mi">0</span> <span class="p">:</span><span class="n">varnoold</span> <span class="mi">1</span> <span class="p">:</span><span class="n">varoattno</span> <span class="mi">4</span> <span class="p">:</span><span class="n">location</span> <span class="mi">232</span><span class="p">}</span>
+<span class="p">(</span><span class="mi">1</span> <span class="n">row</span><span class="p">)</span>
+
+<span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">pg_dist_shard</span><span class="p">;</span>
+ <span class="n">logicalrelid</span> <span class="o">|</span> <span class="n">shardid</span> <span class="o">|</span> <span class="n">shardstorage</span> <span class="o">|</span> <span class="n">shardalias</span> <span class="o">|</span> <span class="n">shardminvalue</span> <span class="o">|</span> <span class="n">shardmaxvalue</span>
+<span class="o">--------------+---------+--------------+------------+---------------+---------------</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102065</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">27</span>            <span class="o">|</span> <span class="mi">14995004</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102066</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">15001035</span>      <span class="o">|</span> <span class="mi">25269705</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102067</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">25273785</span>      <span class="o">|</span> <span class="mi">28570113</span>
+       <span class="mi">488843</span> <span class="o">|</span>  <span class="mi">102068</span> <span class="o">|</span> <span class="n">t</span>            <span class="o">|</span>            <span class="o">|</span> <span class="mi">28570150</span>      <span class="o">|</span> <span class="mi">28678869</span>
+<span class="p">(</span><span class="mi">4</span> <span class="n">rows</span><span class="p">)</span>
+
+<span class="n">SELECT</span> <span class="o">*</span> <span class="kn">from</span> <span class="nn">pg_dist_shard_placement</span><span class="p">;</span>
+ <span class="n">shardid</span> <span class="o">|</span> <span class="n">shardstate</span> <span class="o">|</span> <span class="n">shardlength</span> <span class="o">|</span> <span class="n">nodename</span>  <span class="o">|</span> <span class="n">nodeport</span>
+<span class="o">---------+------------+-------------+-----------+----------</span>
+  <span class="mi">102065</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">7307264</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+  <span class="mi">102065</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">7307264</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102066</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5890048</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102066</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5890048</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+  <span class="mi">102067</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5242880</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+  <span class="mi">102067</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">5242880</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102068</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">3923968</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9700</span>
+  <span class="mi">102068</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>     <span class="mi">3923968</span> <span class="o">|</span> <span class="n">localhost</span> <span class="o">|</span>   <span class="mi">9701</span>
+<span class="p">(</span><span class="mi">8</span> <span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To learn more about the metadata tables and their schema, please visit the <a class="reference internal" href="../reference/metadata_tables.html#metadata-tables"><span class="std std-ref">Metadata Tables Reference</span></a> section of our documentation.</p>
+</div>
+<div class="section" id="query-processing">
+<h2>Query Processing<a class="headerlink" href="#query-processing" title="Permalink to this headline">¶</a></h2>
+<p>When the user issues a query, the Citus master partitions it into smaller query fragments where each query fragment can be run independently on a worker shard. This allows Citus to distribute each query across the cluster, utilizing the processing power of all of the involved nodes and also of individual cores on each node. The master then assigns the query fragments to workers, oversees their execution, merges their results, and returns the final result to the user. To ensure that all queries are executed in a scalable manner, the master also applies optimizations that minimize the amount of data transferred across the network.</p>
+</div>
+<div class="section" id="failure-handling">
+<h2>Failure Handling<a class="headerlink" href="#failure-handling" title="Permalink to this headline">¶</a></h2>
+<p>Citus can easily tolerate worker failures because of its logical sharding-based architecture. If a worker fails mid-query, Citus completes the query by re-routing the failed portions of the query to other workers which have a copy of the shard. If a worker is permanently down, users can easily rebalance the shards onto other workers to maintain the same level of availability.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tutorials/tut-cluster.html" class="btn btn-neutral float-right" title="Start Demo Cluster" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="what_is_citus.html" class="btn btn-neutral" title="What is Citus?" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../v5.2/aboutcitus/introduction_to_citus.html">v5.2</a></li>
+    <li><a href="../../v5.1/aboutcitus/introduction_to_citus.html">v5.1</a></li>
+    <li><a href="introduction_to_citus.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

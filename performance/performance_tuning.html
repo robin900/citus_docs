@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Query Performance Tuning &mdash; Citus 5.2.1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Citus 5.2.1 documentation" href="../index.html"/>
+        <link rel="next" title="Citus Overview" href="../cloud/index.html"/>
+        <link rel="prev" title="Scaling Out Data Ingestion" href="scaling_data_ingestion.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <script>
+   window.intercomSettings = {
+     app_id: "jfost7ih",
+   };
+  </script>
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jfost7ih';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <div class="header">
+  <div class="section-wrap"> 
+              <div class="utility-nav">
+              </div>
+                      <a href="https://www.citusdata.com" title="Citus Data" rel="home" class="logo">
+            <img src="../_static/images/citus-logo.png" alt="Citus Data">
+          </a>
+              <div class="clear"></div>
+  </div>
+  </div>
+  <div class="nav-wrap menu">
+    <div class="section-wrap">
+      <ul>
+        <li><a href="https://www.citusdata.com/product/citus">Product</a></li>
+        <li><a href="https://www.citusdata.com/solutions/applications">Solutions</a></li>
+        <li><a href="https://www.citusdata.com/blog">Blog</a></li>
+        <li><a href="#">Documentation</a></li>
+      </ul>
+    </div>
+  </div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Citus
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">About Citus</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/what_is_citus.html">What is Citus?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../aboutcitus/introduction_to_citus.html">Architecture</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tut-hash-distribution.html">Hash-Distributed Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/development.html">Single-Machine Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/production.html">Multi-Machine Cluster</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Distributed Tables</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/concepts.html">Picking a Distribution Column</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/ddl.html">Creating Distributed Tables (DDL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/dml.html">Ingesting, Modifying Data (DML)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/querying.html">Querying Distributed Tables (SQL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dist_tables/extensions.html">PostgreSQL extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Performance</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="query_processing.html">Citus Query Processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scaling_data_ingestion.html">Scaling Out Data Ingestion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Query Performance Tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-distribution-and-shards">Table Distribution and Shards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postgresql-tuning">PostgreSQL tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scaling-out-performance">Scaling Out Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-query-performance-tuning">Distributed Query Performance Tuning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced">Advanced</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#task-assignment-policy">Task Assignment Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#intermediate-data-transfer-format">Intermediate Data Transfer Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#real-time-executor">Real Time Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#task-tracker-executor">Task Tracker Executor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Cloud</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/index.html">Citus Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloud/support.html">Support and Billing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Technical Solutions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tech_soln/real_time_dashboards.html">Real Time Dashboards</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Administration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/cluster_management.html">Cluster Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/upgrading_citus.html">Upgrading Citus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../admin_guide/transitioning_from_postgresql_to_citus.html">Transitioning From PostgreSQL to Citus</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/citus_sql_reference.html">Citus SQL Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/sql_workarounds.html">SQL Workarounds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/user_defined_functions.html">User Defined Functions Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/metadata_tables.html">Metadata Tables Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/append.html">Append Distribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">Frequently Asked Questions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <a href="../index.html">Citus</a>
+      <ul>
+        <li><a href="/product/citus">Product</a></li>
+        <li><a href="/solutions/applications">Solutions</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Query Performance Tuning</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="query-performance-tuning">
+<span id="performance-tuning"></span><h1>Query Performance Tuning<a class="headerlink" href="#query-performance-tuning" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we describe how you can tune your Citus cluster to get maximum performance. We begin by explaining how choosing the right distribution column affects performance. We then describe how you can first tune your database for high performance on one PostgreSQL server and then scale it out across all the CPUs in the cluster. In this section, we also discuss several performance related configuration parameters wherever relevant.</p>
+<div class="section" id="table-distribution-and-shards">
+<span id="table-distribution-shards"></span><h2>Table Distribution and Shards<a class="headerlink" href="#table-distribution-and-shards" title="Permalink to this headline">¶</a></h2>
+<p>The first step while creating a distributed table is choosing the right distribution column. This helps Citus push down several operations directly to the worker shards and prune away unrelated shards which lead to significant query speedups.</p>
+<p>Typically, you should pick that column as the distribution column which is the most commonly used join key or on which most queries have filters. For filters, Citus uses the distribution column ranges to prune away unrelated shards, ensuring that the query hits only those shards which overlap with the WHERE clause ranges. For joins, if the join key is the same as the distribution column, then Citus executes the join only between those shards which have matching / overlapping distribution column ranges. All these shard joins can be executed in parallel on the workers and hence are more efficient.</p>
+<p>In addition, Citus can push down several operations directly to the worker shards if they are based on the distribution column. This greatly reduces both the amount of computation on each node and the network bandwidth involved in transferring data across nodes.</p>
+<p>Once you choose the right distribution column, you can then proceed to the next step, which is tuning worker node performance.</p>
+</div>
+<div class="section" id="postgresql-tuning">
+<span id="id1"></span><h2>PostgreSQL tuning<a class="headerlink" href="#postgresql-tuning" title="Permalink to this headline">¶</a></h2>
+<p>The Citus master partitions an incoming query into fragment queries, and sends them to the workers for parallel processing. The workers are just extended PostgreSQL servers and they apply PostgreSQL&#8217;s standard planning and execution logic for these queries. So, the first step in tuning Citus is tuning the PostgreSQL configuration parameters on the workers for high performance.</p>
+<p>Tuning the parameters is a matter of experimentation and often takes several attempts to achieve acceptable performance. Thus it&#8217;s best to load only a small portion of your data when tuning to make each iteration go faster.</p>
+<p>To begin the tuning process create a Citus cluster and load data in it. From the master node, run the EXPLAIN command on representative queries to inspect performance. Citus extends the EXPLAIN command to provide information about distributed query execution. The EXPLAIN output shows how each worker processes the query and also a little about how the master node combines their results.</p>
+<p>Here is an example of explaining the plan for a particular query in <a class="reference internal" href="../tutorials/tut-hash-distribution.html#tut-hash"><span class="std std-ref">one of</span></a> our example tutorials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">explain</span> <span class="n">SELECT</span> <span class="n">comment</span> <span class="n">FROM</span> <span class="n">wikipedia_changes</span> <span class="n">c</span><span class="p">,</span> <span class="n">wikipedia_editors</span> <span class="n">e</span>
+        <span class="n">WHERE</span> <span class="n">c</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">editor</span> <span class="n">AND</span> <span class="n">e</span><span class="o">.</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">true</span> <span class="n">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="n">Distributed</span> <span class="n">Query</span> <span class="n">into</span> <span class="n">pg_merge_job_0005</span>
+  <span class="n">Executor</span><span class="p">:</span> <span class="n">Real</span><span class="o">-</span><span class="n">Time</span>
+  <span class="n">Task</span> <span class="n">Count</span><span class="p">:</span> <span class="mi">16</span>
+  <span class="n">Tasks</span> <span class="n">Shown</span><span class="p">:</span> <span class="n">One</span> <span class="n">of</span> <span class="mi">16</span>
+  <span class="o">-&gt;</span>  <span class="n">Task</span>
+    <span class="n">Node</span><span class="p">:</span> <span class="n">host</span><span class="o">=</span><span class="n">localhost</span> <span class="n">port</span><span class="o">=</span><span class="mi">9701</span> <span class="n">dbname</span><span class="o">=</span><span class="n">postgres</span>
+    <span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">6.87</span> <span class="n">rows</span><span class="o">=</span><span class="mi">10</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+      <span class="o">-&gt;</span>  <span class="n">Nested</span> <span class="n">Loop</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">131.12</span> <span class="n">rows</span><span class="o">=</span><span class="mi">195</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">wikipedia_changes_102024</span> <span class="n">c</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">13.90</span> <span class="n">rows</span><span class="o">=</span><span class="mi">390</span> <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Index</span> <span class="n">Scan</span> <span class="n">using</span> <span class="n">wikipedia_editors_editor_key_102008</span> <span class="n">on</span> <span class="n">wikipedia_editors_102008</span> <span class="n">e</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">0.29</span> <span class="n">rows</span><span class="o">=</span><span class="mi">1</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+          <span class="n">Index</span> <span class="n">Cond</span><span class="p">:</span> <span class="p">(</span><span class="n">editor</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span>
+          <span class="n">Filter</span><span class="p">:</span> <span class="p">(</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">TRUE</span><span class="p">)</span>
+<span class="n">Master</span> <span class="n">Query</span>
+  <span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">0.00</span> <span class="n">rows</span><span class="o">=</span><span class="mi">0</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">pg_merge_job_0005</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">0.00</span> <span class="n">rows</span><span class="o">=</span><span class="mi">0</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">15</span> <span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This tells you several things. To begin with there are sixteen shards, and we&#8217;re using the real-time Citus executor setting:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Distributed</span> <span class="n">Query</span> <span class="n">into</span> <span class="n">pg_merge_job_0005</span>
+  <span class="n">Executor</span><span class="p">:</span> <span class="n">Real</span><span class="o">-</span><span class="n">Time</span>
+  <span class="n">Task</span> <span class="n">Count</span><span class="p">:</span> <span class="mi">16</span>
+</pre></div>
+</div>
+<p>Next it picks one of the workers to and shows you more about how the query behaves there. It indicates the host, port, and database so you can connect to the worker directly if desired:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Tasks</span> <span class="n">Shown</span><span class="p">:</span> <span class="n">One</span> <span class="n">of</span> <span class="mi">16</span>
+<span class="o">-&gt;</span>  <span class="n">Task</span>
+  <span class="n">Node</span><span class="p">:</span> <span class="n">host</span><span class="o">=</span><span class="n">localhost</span> <span class="n">port</span><span class="o">=</span><span class="mi">9701</span> <span class="n">dbname</span><span class="o">=</span><span class="n">postgres</span>
+</pre></div>
+</div>
+<p>Distributed EXPLAIN next shows the results of running a normal PostgreSQL EXPLAIN on that worker for the fragment query:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">6.87</span> <span class="n">rows</span><span class="o">=</span><span class="mi">10</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+  <span class="o">-&gt;</span>  <span class="n">Nested</span> <span class="n">Loop</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">131.12</span> <span class="n">rows</span><span class="o">=</span><span class="mi">195</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+    <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">wikipedia_changes_102024</span> <span class="n">c</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">13.90</span> <span class="n">rows</span><span class="o">=</span><span class="mi">390</span> <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+    <span class="o">-&gt;</span>  <span class="n">Index</span> <span class="n">Scan</span> <span class="n">using</span> <span class="n">wikipedia_editors_editor_key_102008</span> <span class="n">on</span> <span class="n">wikipedia_editors_102008</span> <span class="n">e</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">0.29</span> <span class="n">rows</span><span class="o">=</span><span class="mi">1</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+      <span class="n">Index</span> <span class="n">Cond</span><span class="p">:</span> <span class="p">(</span><span class="n">editor</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span>
+      <span class="n">Filter</span><span class="p">:</span> <span class="p">(</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can now connect to the worker at &#8216;localhost&#8217;, port &#8216;9701&#8217; and tune query performance for the shard wikipedia_changes_102024 using standard PostgreSQL techniques. As you make changes run EXPLAIN again from the master or right on the worker.</p>
+<p>The first set of such optimizations relates to configuration settings. PostgreSQL by default comes with conservative resource settings; and among these settings, shared_buffers and work_mem are probably the most important ones in optimizing read performance. We discuss these parameters in brief below. Apart from them, several other configuration settings impact query performance. These settings are covered in more detail in the <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/runtime-config.html">PostgreSQL manual</a> and are also discussed in the <a class="reference external" href="http://www.amazon.com/PostgreSQL-High-Performance-Gregory-Smith/dp/184951030X">PostgreSQL 9.0 High Performance book</a>.</p>
+<p>shared_buffers defines the amount of memory allocated to the database for caching data, and defaults to 128MB. If you have a worker node with 1GB or more RAM, a reasonable starting value for shared_buffers is 1/4 of the memory in your system. There are some workloads where even larger settings for shared_buffers are effective, but given the way PostgreSQL also relies on the operating system cache, it&#8217;s unlikely you&#8217;ll find using more than 25% of RAM to work better than a smaller amount.</p>
+<p>If you do a lot of complex sorts, then increasing work_mem allows PostgreSQL to do larger in-memory sorts which will be faster than disk-based equivalents. If you see lot of disk activity on your worker node inspite of having a decent amount of memory, then increasing work_mem to a higher value can be useful. This will help PostgreSQL in choosing more efficient query plans and allow for greater amount of operations to occur in memory.</p>
+<p>Other than the above configuration settings, the PostgreSQL query planner relies on statistical information about the contents of tables to generate good plans. These statistics are gathered when ANALYZE is run, which is enabled by default. You can learn more about the PostgreSQL planner and the ANALYZE command in greater detail in the <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/sql-analyze.html">PostgreSQL documentation</a>.</p>
+<p>Lastly, you can create indexes on your tables to enhance database performance. Indexes allow the database to find and retrieve specific rows much faster than it could do without an index. To choose which indexes give the best performance, you can run the query with <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/sql-explain.html">EXPLAIN</a> to view query plans and optimize the slower parts of the query. After an index is created, the system has to keep it synchronized with the table which adds overhead to data manipulation operations. Therefore, indexes that are seldom or never used in queries should be removed.</p>
+<p>For write performance, you can use general PostgreSQL configuration tuning to increase INSERT rates. We commonly recommend increasing checkpoint_timeout and max_wal_size settings. Also, depending on the reliability requirements of your application, you can choose to change fsync or synchronous_commit values.</p>
+<p>Once you have tuned a worker to your satisfaction you will have to manually apply those changes to the other workers as well. To verify that they are all behaving properly, set this configuration variable on the master:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SET</span> <span class="n">citus</span><span class="o">.</span><span class="n">explain_all_tasks</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This will cause EXPLAIN to show the the query plan for all tasks, not just one.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">explain</span> <span class="n">SELECT</span> <span class="n">comment</span> <span class="n">FROM</span> <span class="n">wikipedia_changes</span> <span class="n">c</span><span class="p">,</span> <span class="n">wikipedia_editors</span> <span class="n">e</span>
+        <span class="n">WHERE</span> <span class="n">c</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">editor</span> <span class="n">AND</span> <span class="n">e</span><span class="o">.</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">true</span> <span class="n">LIMIT</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="n">Distributed</span> <span class="n">Query</span> <span class="n">into</span> <span class="n">pg_merge_job_0003</span>
+  <span class="n">Executor</span><span class="p">:</span> <span class="n">Real</span><span class="o">-</span><span class="n">Time</span>
+  <span class="n">Task</span> <span class="n">Count</span><span class="p">:</span> <span class="mi">16</span>
+  <span class="n">Tasks</span> <span class="n">Shown</span><span class="p">:</span> <span class="n">All</span>
+  <span class="o">-&gt;</span>  <span class="n">Task</span>
+    <span class="n">Node</span><span class="p">:</span> <span class="n">host</span><span class="o">=</span><span class="n">localhost</span> <span class="n">port</span><span class="o">=</span><span class="mi">9701</span> <span class="n">dbname</span><span class="o">=</span><span class="n">postgres</span>
+    <span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">6.87</span> <span class="n">rows</span><span class="o">=</span><span class="mi">10</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+      <span class="o">-&gt;</span>  <span class="n">Nested</span> <span class="n">Loop</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">131.12</span> <span class="n">rows</span><span class="o">=</span><span class="mi">195</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">wikipedia_changes_102024</span> <span class="n">c</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">13.90</span> <span class="n">rows</span><span class="o">=</span><span class="mi">390</span> <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Index</span> <span class="n">Scan</span> <span class="n">using</span> <span class="n">wikipedia_editors_editor_key_102008</span> <span class="n">on</span> <span class="n">wikipedia_editors_102008</span> <span class="n">e</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">0.29</span> <span class="n">rows</span><span class="o">=</span><span class="mi">1</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+          <span class="n">Index</span> <span class="n">Cond</span><span class="p">:</span> <span class="p">(</span><span class="n">editor</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span>
+          <span class="n">Filter</span><span class="p">:</span> <span class="p">(</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">TRUE</span><span class="p">)</span>
+  <span class="o">-&gt;</span>  <span class="n">Task</span>
+    <span class="n">Node</span><span class="p">:</span> <span class="n">host</span><span class="o">=</span><span class="n">localhost</span> <span class="n">port</span><span class="o">=</span><span class="mi">9702</span> <span class="n">dbname</span><span class="o">=</span><span class="n">postgres</span>
+    <span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">6.87</span> <span class="n">rows</span><span class="o">=</span><span class="mi">10</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+      <span class="o">-&gt;</span>  <span class="n">Nested</span> <span class="n">Loop</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">131.12</span> <span class="n">rows</span><span class="o">=</span><span class="mi">195</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">wikipedia_changes_102025</span> <span class="n">c</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">13.90</span> <span class="n">rows</span><span class="o">=</span><span class="mi">390</span> <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Index</span> <span class="n">Scan</span> <span class="n">using</span> <span class="n">wikipedia_editors_editor_key_102009</span> <span class="n">on</span> <span class="n">wikipedia_editors_102009</span> <span class="n">e</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.15</span><span class="o">..</span><span class="mf">0.29</span> <span class="n">rows</span><span class="o">=</span><span class="mi">1</span> <span class="n">width</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+          <span class="n">Index</span> <span class="n">Cond</span><span class="p">:</span> <span class="p">(</span><span class="n">editor</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span>
+          <span class="n">Filter</span><span class="p">:</span> <span class="p">(</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">TRUE</span><span class="p">)</span>
+  <span class="o">-&gt;</span>  <span class="n">Task</span>
+    <span class="n">Node</span><span class="p">:</span> <span class="n">host</span><span class="o">=</span><span class="n">localhost</span> <span class="n">port</span><span class="o">=</span><span class="mi">9701</span> <span class="n">dbname</span><span class="o">=</span><span class="n">postgres</span>
+    <span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">1.13</span><span class="o">..</span><span class="mf">2.36</span> <span class="n">rows</span><span class="o">=</span><span class="mi">10</span> <span class="n">width</span><span class="o">=</span><span class="mi">74</span><span class="p">)</span>
+      <span class="o">-&gt;</span>  <span class="n">Hash</span> <span class="n">Join</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">1.13</span><span class="o">..</span><span class="mf">8.01</span> <span class="n">rows</span><span class="o">=</span><span class="mi">56</span> <span class="n">width</span><span class="o">=</span><span class="mi">74</span><span class="p">)</span>
+        <span class="n">Hash</span> <span class="n">Cond</span><span class="p">:</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">editor</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">editor</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">wikipedia_changes_102036</span> <span class="n">c</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">5.69</span> <span class="n">rows</span><span class="o">=</span><span class="mi">169</span> <span class="n">width</span><span class="o">=</span><span class="mi">83</span><span class="p">)</span>
+        <span class="o">-&gt;</span>  <span class="n">Hash</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">1.09</span><span class="o">..</span><span class="mf">1.09</span> <span class="n">rows</span><span class="o">=</span><span class="mi">3</span> <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+          <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">wikipedia_editors_102020</span> <span class="n">e</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">1.09</span> <span class="n">rows</span><span class="o">=</span><span class="mi">3</span> <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+            <span class="n">Filter</span><span class="p">:</span> <span class="p">(</span><span class="n">bot</span> <span class="n">IS</span> <span class="n">TRUE</span><span class="p">)</span>
+  <span class="o">--</span>
+  <span class="o">--</span> <span class="o">...</span> <span class="n">repeats</span> <span class="k">for</span> <span class="nb">all</span> <span class="mi">16</span> <span class="n">tasks</span>
+  <span class="o">--</span>     <span class="n">alternating</span> <span class="n">between</span> <span class="n">workers</span> <span class="n">one</span> <span class="ow">and</span> <span class="n">two</span>
+  <span class="o">--</span>     <span class="p">(</span><span class="n">running</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">case</span> <span class="n">locally</span> <span class="n">on</span> <span class="n">ports</span> <span class="mi">9701</span><span class="p">,</span> <span class="mi">9702</span><span class="p">)</span>
+  <span class="o">--</span>
+<span class="n">Master</span> <span class="n">Query</span>
+  <span class="o">-&gt;</span>  <span class="n">Limit</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">0.00</span> <span class="n">rows</span><span class="o">=</span><span class="mi">0</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">-&gt;</span>  <span class="n">Seq</span> <span class="n">Scan</span> <span class="n">on</span> <span class="n">pg_merge_job_0003</span>  <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.00</span><span class="o">..</span><span class="mf">0.00</span> <span class="n">rows</span><span class="o">=</span><span class="mi">0</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Differences in worker execution can be caused by tuning configuration differences, uneven data distribution across shards, or hardware differences between the machines. To get more information about the time it takes the query to run on each shard you can use EXPLAIN ANALYZE.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note that when citus.explain_all_tasks is enabled, EXPLAIN plans are retrieved sequentially, which may take a long time for EXPLAIN ANALYZE. Also a remote EXPLAIN may error out when explaining a broadcast join while the shards for the small table have not yet been fetched. An error message is displayed advising to run the query first.</p>
+</div>
+</div>
+<div class="section" id="scaling-out-performance">
+<span id="id2"></span><h2>Scaling Out Performance<a class="headerlink" href="#scaling-out-performance" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned, once you have achieved the desired performance for a single shard you can set similar configuration parameters on all your workers. As Citus runs all the fragment queries in parallel across the worker nodes, users can scale out the performance of their queries to be the cumulative of the computing power of all of the CPU cores in the cluster assuming that the data fits in memory.</p>
+<p>Users should try to fit as much of their working set in memory as possible to get best performance with Citus. If fitting the entire working set in memory is not feasible, we recommend using SSDs over HDDs as a best practice. This is because HDDs are able to show decent performance when you have sequential reads over contiguous blocks of data, but have significantly lower random read / write performance. In cases where you have a high number of concurrent queries doing random reads and writes, using SSDs can improve query performance by several times as compared to HDDs. Also, if your queries are highly compute intensive, it might be beneficial to choose machines with more powerful CPUs.</p>
+<p>To measure the disk space usage of your database objects, you can log into the worker nodes and use <a class="reference external" href="http://www.postgresql.org/docs/9.5/static/functions-admin.html#FUNCTIONS-ADMIN-DBSIZE">PostgreSQL administration functions</a> for individual shards. The pg_total_relation_size() function can be used to get the total disk space used by a table. You can also use other functions mentioned in the PostgreSQL docs to get more specific size information. On the basis of these statistics for a shard and the shard count, users can compute the hardware requirements for their cluster.</p>
+<p>Another factor which affects performance is the number of shards per worker node. Citus partitions an incoming query into its fragment queries which run on individual worker shards. Hence, the degree of parallelism for each query is governed by the number of shards the query hits. To ensure maximum parallelism, you should create enough shards on each node such that there is at least one shard per CPU core. Another consideration to keep in mind is that Citus will prune away unrelated shards if the query has filters on the distribution column. So, creating more shards than the number of cores might also be beneficial so that you can achieve greater parallelism even after shard pruning.</p>
+</div>
+<div class="section" id="distributed-query-performance-tuning">
+<span id="id3"></span><h2>Distributed Query Performance Tuning<a class="headerlink" href="#distributed-query-performance-tuning" title="Permalink to this headline">¶</a></h2>
+<p>Once you have distributed your data across the cluster, with each worker optimized for best performance, you should be able to see high performance gains on your queries. After this, the final step is to tune a few distributed performance tuning parameters.</p>
+<p>Before we discuss the specific configuration parameters, we recommend that you measure query times on your distributed cluster and compare them with the single shard performance. This can be done by enabling \timing and running the query on the master node and running one of the fragment queries on the worker nodes. This helps in determining the amount of time spent on the worker nodes and the amount of time spent in fetching the data to the master node. Then, you can figure out what the bottleneck is and optimize the database accordingly.</p>
+<p>In this section, we discuss the parameters which help optimize the distributed query planner and executors. There are several relevant parameters and we discuss them in two sections:- general and advanced. The general performance tuning section is sufficient for most use-cases and covers all the common configs. The advanced performance tuning section covers parameters which may provide performance gains in specific use cases.</p>
+<div class="section" id="general">
+<span id="general-performance-tuning"></span><h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<p>For higher INSERT performance, the factor which impacts insert rates the most is the level of concurrency. You should try to run several concurrent INSERT statements in parallel. This way you can achieve very high insert rates if you have a powerful master node and are able to use all the CPU cores on that node together.</p>
+<p>Citus has two executor types for running SELECT queries. The desired executor can be selected by setting the citus.task_executor_type configuration parameter. If your use case mainly requires simple key-value lookups or requires sub-second responses to aggregations and joins, you can choose the real-time executor. On the other hand if there are long running queries which require repartitioning and shuffling of data across the workers, then you can switch to the the task tracker executor.</p>
+<p>Other than the above, there are two configuration parameters which can be useful in cases where approximations produce meaningful results. These two parameters are citus.limit_clause_row_fetch_count and citus.count_distinct_error_rate. The former sets the number of rows to fetch from each task while calculating limits while the latter sets the desired error rate when calculating approximate distinct counts. You can learn more about the applicability and usage of these parameters in the user guide sections: <a class="reference internal" href="../dist_tables/querying.html#count-distinct"><span class="std std-ref">Count (Distinct) Aggregates</span></a> and <a class="reference internal" href="../dist_tables/querying.html#limit-pushdown"><span class="std std-ref">Limit Pushdown</span></a>.</p>
+</div>
+<div class="section" id="advanced">
+<span id="advanced-performance-tuning"></span><h3>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline">¶</a></h3>
+<p>In this section, we discuss advanced performance tuning parameters. These parameters are applicable to specific use cases and may not be required for all deployments.</p>
+<div class="section" id="task-assignment-policy">
+<h4>Task Assignment Policy<a class="headerlink" href="#task-assignment-policy" title="Permalink to this headline">¶</a></h4>
+<p>The Citus query planner assigns tasks to the worker nodes based on shard locations. The algorithm used while making these assignments can be chosen by setting the citus.task_assignment_policy configuration parameter. Users can alter this configuration parameter to choose the policy which works best for their use case.</p>
+<p>The <strong>greedy</strong> policy aims to distribute tasks evenly across the workers. This policy is the default and works well in most of the cases. The <strong>round-robin</strong> policy assigns tasks to workers in a round-robin fashion alternating between different replicas. This enables much better cluster utilization when the shard count for a table is low compared to the number of workers. The third policy is the <strong>first-replica</strong> policy which assigns tasks on the basis of the insertion order of placements (replicas) for the shards. With this policy, users can be sure of which shards will be accessed on each machine. This helps in providing stronger memory residency guarantees by allowing you to keep your working set in memory and use it for querying.</p>
+</div>
+<div class="section" id="intermediate-data-transfer-format">
+<h4>Intermediate Data Transfer Format<a class="headerlink" href="#intermediate-data-transfer-format" title="Permalink to this headline">¶</a></h4>
+<p>There are two configuration parameters which relate to the format in which intermediate data will be transferred across workers or between workers and the master. Citus by default transfers intermediate query data in the text format. This is generally better as text files typically have smaller sizes than the binary representation. Hence, this leads to lower network and disk I/O while writing and transferring intermediate data.</p>
+<p>However, for certain data types like hll or hstore arrays, the cost of serializing and deserializing data is pretty high. In such cases, using binary format for transferring intermediate data can improve query performance due to reduced CPU usage. There are two configuration parameters which can be used to tune this behaviour, citus.binary_master_copy_format and citus.binary_worker_copy_format. Enabling the former uses binary format to transfer intermediate query results from the workers to the master while the latter is useful in queries which require dynamic shuffling of intermediate data between workers.</p>
+</div>
+<div class="section" id="real-time-executor">
+<h4>Real Time Executor<a class="headerlink" href="#real-time-executor" title="Permalink to this headline">¶</a></h4>
+<p>If you have SELECT queries which require sub-second response times, you should try to use the real-time executor.</p>
+<p>The real-time executor opens one connection and uses two file descriptors per unpruned shard (Unrelated shards are pruned away during planning). Due to this, the executor may need to open more connections than max_connections or use more file descriptors than max_files_per_process if the query hits a high number of shards.</p>
+<p>In such cases, the real-time executor will begin throttling tasks to prevent overwhelming resources on the workers. Since this throttling can reduce query performance, the real-time executor will issue a warning suggesting that max_connections or max_files_per_process should be increased. On seeing these warnings, you should increase the suggested parameters to maintain the desired query performance.</p>
+</div>
+<div class="section" id="task-tracker-executor">
+<h4>Task Tracker Executor<a class="headerlink" href="#task-tracker-executor" title="Permalink to this headline">¶</a></h4>
+<p>If your queries require repartitioning of data or more efficient resource management, you should use the task tracker executor. There are two configuration parameters which can be used to tune the task tracker executor’s performance.</p>
+<p>The first one is the citus.task_tracker_delay. The task tracker process wakes up regularly, walks over all tasks assigned to it, and schedules and executes these tasks. This parameter sets the task tracker sleep time between these task management rounds. Reducing this parameter can be useful in cases when the shard queries are short and hence update their status very regularly.</p>
+<p>The second parameter is citus.max_running_tasks_per_node. This configuration value sets the maximum number of tasks to execute concurrently on one worker node node at any given time. This configuration entry ensures that you don&#8217;t have many tasks hitting disk at the same time and helps in avoiding disk I/O contention. If your queries are served from memory or SSDs, you can increase citus.max_running_tasks_per_node without much concern.</p>
+<p>With this, we conclude our discussion about performance tuning in Citus. To learn more about the specific configuration parameters discussed in this section, please visit the <a class="reference internal" href="../reference/configuration.html#configuration"><span class="std std-ref">Configuration Reference</span></a> section of our documentation.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../cloud/index.html" class="btn btn-neutral float-right" title="Citus Overview" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="scaling_data_ingestion.html" class="btn btn-neutral" title="Scaling Out Data Ingestion" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Citus Data.
+
+    </p>
+  </div> 
+
+</footer>
+
+          <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32858865-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script>
+/**
+* Function that tracks a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {
+     'transport': 'beacon',
+     'hitCallback': function(){document.location = url;}
+   });
+}
+</script>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<h3>Versions</h3>
+<ul>
+    <li><a href="../v5.2/performance/performance_tuning.html">v5.2</a></li>
+    <li><a href="../v5.1/performance/performance_tuning.html">v5.1</a></li>
+    <li><a href="../v5.0/performance/performance_tuning.html">v5.0</a></li>
+</ul>
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'5.2.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
