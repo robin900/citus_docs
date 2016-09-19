@@ -299,7 +299,7 @@ pdf_fit_mode = "shrink"
 # -- Options for sphinxdoc-versioning -------------------------------------
 
 scv_greatest_tag = True
-scv_root_ref = version
+scv_root_ref = ('v%s' % version)
 scv_priority = 'branches'
 scv_sort = ('semver',)
 scv_whitelist_branches = (re.compile(r'^v\d+\.\d+$'),)
